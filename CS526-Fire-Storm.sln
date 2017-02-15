@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS526-Fire-Storm", "CS526-Fire-Storm.csproj", "{3CCDABEB-E650-A158-0879-620D71AF1C5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CCDABEB-E650-A158-0879-620D71AF1C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CCDABEB-E650-A158-0879-620D71AF1C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CCDABEB-E650-A158-0879-620D71AF1C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CCDABEB-E650-A158-0879-620D71AF1C5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
