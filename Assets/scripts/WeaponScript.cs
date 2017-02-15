@@ -62,12 +62,13 @@ public class WeaponScript : MonoBehaviour {
 				shot.isEnemyShot = isEnemy;
 			}
 
-			// Make the weapon shot always towards it
-			MoveScript move = shotTransform.gameObject.GetComponent<MoveScript>();
-			if (move != null)
-			{
-				move.direction = this.transform.right; // towards in 2D space is the right of the sprite
-			}
+            // Make the weapon shot always towards it
+            //MoveScript move = shotTransform.gameObject.GetComponent<MoveScript>();
+            //if (move != null)
+            //{
+            ////	move.direction = this.transform.right; // towards in 2D space is the right of the sprite
+            //}
+
 		}
 	}
 

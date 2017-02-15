@@ -1,2 +1,3 @@
 # CS526-Fire-Storm
-Let's rock with UCLA bears!
+
+This is a *unity 2d* shooting game.
