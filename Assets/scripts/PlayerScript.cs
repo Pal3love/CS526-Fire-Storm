@@ -68,15 +68,12 @@ public class PlayerScript : MonoBehaviour {
 	{
 //		rigidbodyComponent.AddForce(Vector2.up * 10);
 //		rigidbodyComponent.AddForce(Vector2.down * 10);
-
 		rigidbodyComponent.velocity = Vector2.zero;
 		float timer = 0;
 		//Add a constant force every frame of the jump
 		rigidbodyComponent.AddForce(Vector2.up * 1000);
 	    timer += Time.deltaTime;
-
-
-
 	}
+		
 		
 }
