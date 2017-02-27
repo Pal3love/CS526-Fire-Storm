@@ -8,6 +8,7 @@ public class ClimbScript : MonoBehaviour {
 
 	PlayerScript player;
 	float originalGravityScale;
+
 	void OnTriggerEnter2D(Collider2D otherCollider)
 	{
 
