@@ -15,7 +15,7 @@ public class PickUpScript : MonoBehaviour {
 
 		if (player != null)
 		{ 
-			Destroy(gameObject, 1);
+			Destroy(gameObject, 0);
 
 			//add effect
 		}
