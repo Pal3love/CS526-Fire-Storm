@@ -9,7 +9,7 @@ public class PlayerScript : MonoBehaviour {
 	/// 1 - The speed of the ship
 	/// </summary>
 	public Vector2 speed = new Vector2(1, 1);
-	public float jumpSpeed = 9000000.0F;
+	public float jumpSpeed = 0.0000000001F;
 
 
 	// 2 - Store the movement and the component
@@ -75,7 +75,7 @@ public class PlayerScript : MonoBehaviour {
 		rigidbodyComponent.velocity = Vector2.zero;
 		float timer = 0;
 		//Add a constant force every frame of the jump
-		rigidbodyComponent.AddForce(Vector2.up * 1000);
+		rigidbodyComponent.AddForce(Vector2.up * jumpSpeed);
 	    timer += Time.deltaTime;
 	}
 		
