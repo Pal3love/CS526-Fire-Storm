@@ -1,51 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ClimbScript : MonoBehaviour {
 
-	GameObject player; 
-	bool canClimb = false; 
-	float climbSpeed = 1;
 
-	void Awake () {
-		// Setting up the references.
-		player = GameObject.FindGameObjectWithTag ("Player");
-	}
+	PlayerScript player;
+	float originalGravityScale;
+	void OnTriggerEnter2D(Collider2D otherCollider)
+	{
 
-	void OnTriggerEnter2D(Collider2D other) { // send in the other collider (should always work)
+		Debug.Log("entered ");
+		// Is this player?
+		player = otherCollider.gameObject.GetComponent<PlayerScript>();
 
-		if (other.gameObject.tag == "Player") { // used a tag to ID collider as player
-			canClimb = true;
-			Rigidbody body = player.GetComponent<Rigidbody>();
-			body.useGravity = false;
-
+		if (player != null)
+		{ 
+			originalGravityScale = player.GetComponent<Rigidbody2D>().gravityScale;
+			player.GetComponent<Rigidbody2D>().gravityScale = 0;
 		}
 	}
 
-	void OnTriggerExit2D(Collider2D other) { // send in the other collider (should always work)
+	void OnTriggerStay2D(Collider2D otherCollider)
+	{
+		Debug.Log("stay function");
+		if (player != null)
+		{ 
+			if (Input.GetKey (KeyCode.W)) { // used a tag to ID collider as player
+				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, 1);
 
-		Rigidbody body = other.GetComponent<Rigidbody>();
-		if(body.tag == "Player"){
-			canClimb = false;
-			body.useGravity = true;
+			} else if (Input.GetKey(KeyCode.S)) {
+				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, -1);
+			}
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D otherCollider)
+	{
+
+		Debug.Log("tigger exit");
+		// Is this player?
+		PlayerScript player = otherCollider.gameObject.GetComponent<PlayerScript>();
+
+		if (player != null)
+		{ 
+			player.GetComponent<Rigidbody2D> ().gravityScale = originalGravityScale;
 
 		}
 	}
 
 	// Use this for initialization
 	void Start () {
-
-		if(canClimb == true){
-
-
-			if(Input.GetKey(KeyCode.Z)){
-				
-			}
-			if(Input.GetKey(KeyCode.S)){
-
-			}
-		}
 		
 	}
 	
