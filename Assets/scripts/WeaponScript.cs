@@ -31,9 +31,23 @@ public class WeaponScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (shootCooldown > 0)
+		//if (shootCooldown > 0)
+		//{
+		//	shootCooldown -= Time.deltaTime;
+		//}
+		// 5 - Shooting
+		bool shoot = Input.GetButtonDown("Fire1");
+		shoot |= Input.GetButtonDown("Fire2");
+		// Careful: For Mac users, ctrl + arrow is a bad idea
+
+		if (shoot)
 		{
-			shootCooldown -= Time.deltaTime;
+			WeaponScript weapon = GetComponent<WeaponScript>();
+			if (weapon != null)
+			{
+				// false because the player is not an enemy
+				weapon.Attack(false);
+			}
 		}
 	}
 	//--------------------------------

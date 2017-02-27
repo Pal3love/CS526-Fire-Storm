@@ -22,7 +22,6 @@ public class ClimbScript : MonoBehaviour {
 			player.GetComponent<Rigidbody2D>().gravityScale = 0;
 		}
 	}
-
 	void OnTriggerStay2D(Collider2D otherCollider)
 	{
 //		Debug.Log("stay function");
@@ -53,11 +52,10 @@ public class ClimbScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+
 	}
-	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 }
