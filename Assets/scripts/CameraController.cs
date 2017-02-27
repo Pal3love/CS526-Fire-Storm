@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour {
 			pixelsToUnits *= scale;
 			camera.orthographicSize = (Screen.height / 2.0f) / pixelsToUnits;
 		}
-	} */  // 这段代码可以让摄像机缩放自适应不同屏幕分辨率
+	} */  // 这段代码可以让摄像机自适应不同屏幕分辨率
 
 	// Use this for initialization
 	void Start () {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;  // Added by Shiyu He
 
 public class PlayerScript : MonoBehaviour {
 
@@ -24,8 +25,10 @@ public class PlayerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// 3 - Retrieve axis information
-		float inputX = Input.GetAxis("Horizontal");
-		float inputY = Input.GetAxis("Vertical");
+		// float inputX = Input.GetAxis("Horizontal");
+		// float inputY = Input.GetAxis("Vertical");
+		float inputX = CrossPlatformInputManager.GetAxis ("Horizontal");  // Replaced by touchscreen control (Shiyu He)
+		float inputY = CrossPlatformInputManager.GetAxis ("Vertical");  // Replaced by touchscreen control (Shiyu He)
 
 		// 4 - Movement per direction
 		movement = new Vector2(
@@ -40,7 +43,8 @@ public class PlayerScript : MonoBehaviour {
 		}
 
 		// 6 - Shooting
-		bool shoot = Input.GetButtonDown("Fire1");
+		bool shoot = CrossPlatformInputManager.GetButton("FIRE");  // Replaced by touchscreen control (Shiyu He)
+		// bool shoot = Input.GetButtonDown("Fire1");
 		shoot |= Input.GetButtonDown("Fire2");
 		// Careful: For Mac users, ctrl + arrow is a bad idea
 
