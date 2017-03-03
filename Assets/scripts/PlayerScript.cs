@@ -5,15 +5,19 @@ using UnityStandardAssets.CrossPlatformInput;  // Added by Shiyu He
 
 public class PlayerScript : MonoBehaviour {
 
-	/// <summary>
-	/// 1 - The speed of the ship
-	/// </summary>
-	public Vector2 speed = new Vector2(1, 1);
-	public float jumpSpeed = 0.0000000001F;
-    public Rigidbody2D rigidbodyComponent;
+	public Rigidbody2D rigidbodyComponent;
 
-    // 2 - Store the movement and the component
-    private Vector2 movement;
+	public float walkSpeed;
+	public float scale;
+
+	public float jumpSpeed;
+	public Vector2 jumpVector;
+	public bool isGrounded;
+	public Transform grounder;
+	public float radiuss;
+	public LayerMask ground;
+    
+
 
 
 	// Use this for initialization
@@ -24,26 +28,36 @@ public class PlayerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// 3 - Retrieve axis information
-		//float inputX = Input.GetAxis("Horizontal");
-		//float inputY = Input.GetAxis("Vertical");
-		float inputX = CrossPlatformInputManager.GetAxis ("Horizontal");  // Replaced by touchscreen control (Shiyu He)
-		float inputY = CrossPlatformInputManager.GetAxis ("Vertical");  // Replaced by touchscreen control (Shiyu He)
+//		float inputX = Input.GetAxis("Horizontal");
+//		float inputY = Input.GetAxis("Vertical");
+//		float inputX = CrossPlatformInputManager.GetAxis ("Horizontal");  // Replaced by touchscreen control (Shiyu He)
+//		float inputY = CrossPlatformInputManager.GetAxis ("Vertical");  // Replaced by touchscreen control (Shiyu He)
 
-		// 4 - Movement per direction
-		movement = new Vector2(
-			speed.x * inputX,
-			speed.y * inputY);
+		if(Input.GetKey(KeyCode.RightArrow)){
+			
+			rigidbodyComponent.velocity = new Vector2 (walkSpeed,rigidbodyComponent.velocity.y);
+			transform.localScale = new Vector3 (scale, scale, 1);
+
+		}else if(Input.GetKey(KeyCode.LeftArrow)){
+
+			rigidbodyComponent.velocity = new Vector2 (-walkSpeed,rigidbodyComponent.velocity.y);
+			transform.localScale = new Vector3 (-scale, scale, 1);
+		}
+		else{
+			rigidbodyComponent.velocity = new Vector2 (0,rigidbodyComponent.velocity.y);
+		}
+			
 
 		// 5 - Jumping
-		bool jump = Input.GetButtonDown("Jump");
-		jump |= Input.GetButtonDown("Jump");
-		if (jump){
-			Jump();
+		isGrounded = Physics2D.OverlapCircle(grounder.transform.position,radiuss,ground);
+		if(Input.GetKey(KeyCode.UpArrow)){
+			rigidbodyComponent.AddForce (jumpVector, ForceMode2D.Force);
 		}
 
+
 		// 6 - Shooting
-		bool shoot = CrossPlatformInputManager.GetButton("FIRE");  // Replaced by touchscreen control (Shiyu He)
-		// bool shoot = Input.GetButtonDown("Fire1");
+//		bool shoot = CrossPlatformInputManager.GetButton("FIRE");  // Replaced by touchscreen control (Shiyu He)
+		bool shoot = Input.GetButtonDown("Fire1");
 		shoot |= Input.GetButtonDown("Fire2");
 		// Careful: For Mac users, ctrl + arrow is a bad idea
 
@@ -64,19 +78,12 @@ public class PlayerScript : MonoBehaviour {
 		if (rigidbodyComponent == null) rigidbodyComponent = GetComponent<Rigidbody2D>();
 
 		// 6 - Move the game object
-		rigidbodyComponent.velocity = movement;
+//		rigidbodyComponent.velocity = movement;
 	}
 
-	void Jump() 
-	{
-//		rigidbodyComponent.AddForce(Vector2.up * 10);
-//		rigidbodyComponent.AddForce(Vector2.down * 10);
-		rigidbodyComponent.velocity = Vector2.zero;
-		float timer = 0;
-		//Add a constant force every frame of the jump
-		rigidbodyComponent.AddForce(Vector2.up * jumpSpeed);
-	    timer += Time.deltaTime;
+	void onDrawGizmos(){
+		Gizmos.color = Color.white;
+		Gizmos.DrawWireSphere (grounder.transform.position, radiuss);
 	}
-		
-		
+				
 }

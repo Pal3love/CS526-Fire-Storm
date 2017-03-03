@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{88312738-F985-3307-1BED-2AC79EA189CB}</ProjectGuid>
+    <ProjectGuid>{9FA00764-2F10-DC05-5DC7-23C842B587CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -56,11 +56,13 @@
      <Compile Include="Assets\scripts\EnemySpawnScript.cs" />
      <Compile Include="Assets\scripts\HealthScript.cs" />
      <Compile Include="Assets\scripts\MoveScript.cs" />
+     <Compile Include="Assets\scripts\PickUp.cs" />
      <Compile Include="Assets\scripts\PickUpScript.cs" />
      <Compile Include="Assets\scripts\PlayerHealthScript.cs" />
      <Compile Include="Assets\scripts\PlayerScript.cs" />
      <Compile Include="Assets\scripts\ShotScript.cs" />
      <Compile Include="Assets\scripts\WeaponScript.cs" />
+     <Compile Include="Assets\scripts\ladder.cs" />
      <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
  <Reference Include="UnityEngine.Analytics">
@@ -84,7 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{D88C3862-74C9-CC25-8533-4F99BBE8C7B6}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{C8027C0A-5AA9-CA8E-2EE4-5561F17D7587}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
