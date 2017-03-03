@@ -10,11 +10,10 @@ public class PlayerScript : MonoBehaviour {
 	/// </summary>
 	public Vector2 speed = new Vector2(1, 1);
 	public float jumpSpeed = 0.0000000001F;
+    public Rigidbody2D rigidbodyComponent;
 
-
-	// 2 - Store the movement and the component
-	private Vector2 movement;
-	private Rigidbody2D rigidbodyComponent;
+    // 2 - Store the movement and the component
+    private Vector2 movement;
 
 
 	// Use this for initialization
@@ -25,8 +24,8 @@ public class PlayerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// 3 - Retrieve axis information
-		// float inputX = Input.GetAxis("Horizontal");
-		// float inputY = Input.GetAxis("Vertical");
+		//float inputX = Input.GetAxis("Horizontal");
+		//float inputY = Input.GetAxis("Vertical");
 		float inputX = CrossPlatformInputManager.GetAxis ("Horizontal");  // Replaced by touchscreen control (Shiyu He)
 		float inputY = CrossPlatformInputManager.GetAxis ("Vertical");  // Replaced by touchscreen control (Shiyu He)
 
