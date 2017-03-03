@@ -50,7 +50,7 @@ public class PlayerScript : MonoBehaviour {
 
 		// 5 - Jumping
 		isGrounded = Physics2D.OverlapCircle(grounder.transform.position,radiuss,ground);
-		if(Input.GetKey(KeyCode.UpArrow)){
+		if(Input.GetKey(KeyCode.UpArrow) && isGrounded){
 			rigidbodyComponent.AddForce (jumpVector, ForceMode2D.Force);
 		}
 
