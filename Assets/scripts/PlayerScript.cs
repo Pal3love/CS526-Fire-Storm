@@ -10,7 +10,6 @@ public class PlayerScript : MonoBehaviour {
 	public float walkSpeed;
 	public float scale;
 
-	public float jumpSpeed;
 	public Vector2 jumpVector;
 	public bool isGrounded;
 	public Transform grounder;
@@ -55,9 +54,10 @@ public class PlayerScript : MonoBehaviour {
 		}
 
 
-		// 6 - Shooting
-//		bool shoot = CrossPlatformInputManager.GetButton("FIRE");  // Replaced by touchscreen control (Shiyu He)
-		bool shoot = Input.GetButtonDown("Fire1");
+
+        // 6 - Shooting
+        //		bool shoot = CrossPlatformInputManager.GetButton("FIRE");  // Replaced by touchscreen control (Shiyu He)
+        bool shoot = Input.GetButtonDown("Fire1");
 		shoot |= Input.GetButtonDown("Fire2");
 		// Careful: For Mac users, ctrl + arrow is a bad idea
 
@@ -81,7 +81,7 @@ public class PlayerScript : MonoBehaviour {
 //		rigidbodyComponent.velocity = movement;
 	}
 
-	void onDrawGizmos(){
+	void OnDrawGizmos(){
 		Gizmos.color = Color.white;
 		Gizmos.DrawWireSphere (grounder.transform.position, radiuss);
 	}
