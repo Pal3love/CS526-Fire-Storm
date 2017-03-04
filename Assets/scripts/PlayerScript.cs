@@ -5,20 +5,21 @@ using UnityStandardAssets.CrossPlatformInput;  // Added by Shiyu He
 
 public class PlayerScript : MonoBehaviour {
 
+	public const float PLAYER_POSITION_LEFT_BOUNDARY = -24f;
+	public const float PLAYER_POSITION_RIGHT_BOUNDARY = 25f;
+
 	public Rigidbody2D rigidbodyComponent;
 
 	public float walkSpeed;
 	public float scale;
 
+	public float jumpSpeed;
 	public Vector2 jumpVector;
 	public bool isGrounded;
 	public Transform grounder;
 	public float radiuss;
 	public LayerMask ground;
     
-
-
-
 	// Use this for initialization
 	void Start () {
 		
@@ -31,6 +32,16 @@ public class PlayerScript : MonoBehaviour {
 //		float inputY = Input.GetAxis("Vertical");
 //		float inputX = CrossPlatformInputManager.GetAxis ("Horizontal");  // Replaced by touchscreen control (Shiyu He)
 //		float inputY = CrossPlatformInputManager.GetAxis ("Vertical");  // Replaced by touchscreen control (Shiyu He)
+
+		// Shiyu He: Set boundry for the player
+		Vector3 currPlayerPos = transform.position;
+		if (currPlayerPos.x < PLAYER_POSITION_LEFT_BOUNDARY) {
+			currPlayerPos.x = PLAYER_POSITION_LEFT_BOUNDARY;
+		}
+		if (currPlayerPos.x > PLAYER_POSITION_RIGHT_BOUNDARY) {
+			currPlayerPos.x = PLAYER_POSITION_RIGHT_BOUNDARY;
+		}
+		transform.position = currPlayerPos;
 
 		if(Input.GetKey(KeyCode.RightArrow)){
 			
@@ -54,10 +65,9 @@ public class PlayerScript : MonoBehaviour {
 		}
 
 
-
-        // 6 - Shooting
-        //		bool shoot = CrossPlatformInputManager.GetButton("FIRE");  // Replaced by touchscreen control (Shiyu He)
-        bool shoot = Input.GetButtonDown("Fire1");
+		// 6 - Shooting
+//		bool shoot = CrossPlatformInputManager.GetButton("FIRE");  // Replaced by touchscreen control (Shiyu He)
+		bool shoot = Input.GetButtonDown("Fire1");
 		shoot |= Input.GetButtonDown("Fire2");
 		// Careful: For Mac users, ctrl + arrow is a bad idea
 
@@ -81,7 +91,7 @@ public class PlayerScript : MonoBehaviour {
 //		rigidbodyComponent.velocity = movement;
 	}
 
-	void OnDrawGizmos(){
+	void onDrawGizmos(){
 		Gizmos.color = Color.white;
 		Gizmos.DrawWireSphere (grounder.transform.position, radiuss);
 	}

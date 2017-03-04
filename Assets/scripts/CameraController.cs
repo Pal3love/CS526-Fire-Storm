@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
+	public const float CAMERA_LEFT_BOUNDARY = -15f;
+	public const float CAMERA_RIGHT_BOUNDARY = 16f;
+	public const float CAMERA_BOTTOM_BOUNDARY = -13.5f;
+	public const float CAMERA_TOP_BOUNDARY = 14f;
+
 	public static float pixelsToUnits = 1f;
 	public static float scale = 1f;
 	public Vector2 nativeResolution = new Vector2 (16, 9);
@@ -21,11 +26,26 @@ public class CameraController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		offset = transform.position - player.transform.position;
+		offset = Vector3.zero;
 	}
 	
-	// Update is called once per frame
+	// Performs better than Update ()
 	void LateUpdate () {
-		transform.position = offset + player.transform.position;
+		float tempCameraPosZ = transform.position.z;
+		Vector3 newCameraPos = offset + player.transform.position;
+		newCameraPos.z = tempCameraPosZ;
+		if (newCameraPos.x < CAMERA_LEFT_BOUNDARY) {
+			newCameraPos.x = CAMERA_LEFT_BOUNDARY;
+		}
+		if (newCameraPos.x > CAMERA_RIGHT_BOUNDARY) {
+			newCameraPos.x = CAMERA_RIGHT_BOUNDARY;
+		}
+		if (newCameraPos.y < CAMERA_BOTTOM_BOUNDARY) {
+			newCameraPos.y = CAMERA_BOTTOM_BOUNDARY;
+		}
+		if (newCameraPos.y > CAMERA_TOP_BOUNDARY) {
+			newCameraPos.y = CAMERA_TOP_BOUNDARY;
+		}
+		transform.position = newCameraPos;
 	}
 }
