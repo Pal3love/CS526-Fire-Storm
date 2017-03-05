@@ -3,30 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHealthScript : MonoBehaviour {
-    public int life = 15;
-    public int Atk = 1;
+    public int life = 5;
+    // Use this for initialization
+    public int enemyAtk = 1;
     // Use this for initialization
 
-
-
-
-
     void OnTriggerEnter2D(Collider2D other)
-        
+
     {
-        if(other.tag == "player")
+        if (other.tag == "EnemyBullet")
         {
-            life -= Atk;
+            life -= enemyAtk;
 
             if (life <= 0)
             {
                 Destroy(gameObject);
             }
+            Destroy(other.gameObject);
         }
-       
+
+        if (other.tag == "Enemy")
+        {
+            life -= enemyAtk;
+
+            if (life <= 0)
+            {
+                Destroy(gameObject);
+            }
+
+        }
     }
 
-    void Start () {
+       void Start () {
 		
 	}
 	

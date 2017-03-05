@@ -92,10 +92,9 @@
     <Compile Include="Assets\scripts\CameraController.cs" />
     <Compile Include="Assets\scripts\ClimbScript.cs" />
     <Compile Include="Assets\scripts\DestroyBullet.cs" />
-    <Compile Include="Assets\scripts\EnemyAI.cs" />
     <Compile Include="Assets\scripts\EnemyAIScript.cs" />
+    <Compile Include="Assets\scripts\EnemyHealthScript.cs" />
     <Compile Include="Assets\scripts\EnemySpawnScript.cs" />
-    <Compile Include="Assets\scripts\HealthScript.cs" />
     <Compile Include="Assets\scripts\MoveScript.cs" />
     <Compile Include="Assets\scripts\PickUp.cs" />
     <Compile Include="Assets\scripts\PickUpScript.cs" />
