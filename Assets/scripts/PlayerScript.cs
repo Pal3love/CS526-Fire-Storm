@@ -19,6 +19,7 @@ public class PlayerScript : MonoBehaviour {
 	public Transform grounder;
 	public float radiuss;
 	public LayerMask ground;
+    public Rigidbody2D bulletPrefab;
     
 	// Use this for initialization
 	void Start () {
@@ -73,7 +74,17 @@ public class PlayerScript : MonoBehaviour {
 
 		if (shoot)
 		{
-			WeaponScript weapon = GetComponent<WeaponScript>();
+            Rigidbody2D bullet = Instantiate(bulletPrefab) as Rigidbody2D;
+            bullet.position = transform.position;
+            if (transform.localScale.x > 0)
+            {
+                bullet.velocity = new Vector2(8.0f, 0);
+            }
+            else
+            {
+                bullet.velocity = new Vector2(-8.0f, 0);
+            }
+            WeaponScript weapon = GetComponent<WeaponScript>();
 			if (weapon != null)
 			{
 				// false because the player is not an enemy
