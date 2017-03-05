@@ -5,71 +5,68 @@ using UnityEngine;
 public class EnemyAIScript : MonoBehaviour
 {
 
-    public float speed = 5.0f;
-    public Transform target;
-
-    private float initialXScale;
-
-    public Transform bulletPrefab;
-    public Transform bulletPreb2;
-    public float shootingSpeed = 600f;
+    public float moveSpeed = 0.1f;
+    public GameObject target;
     float shootingTime = 0.5f;
     float shootingNeedTime = 1.0f;
-
+   
+    public Rigidbody2D rgbd;
+    public Rigidbody2D bulletPrefab;
+    public float bulletSpeed = 3.0f;
+    public Vector2 playerPos;
+    public Vector2 selfPos;
+    public Vector2 follow;
     // Use this for initialization
     void Start()
     {
-        initialXScale = transform.localScale.x;
-
+       
+        rgbd = GetComponent<Rigidbody2D>();
+        target = GameObject.FindGameObjectsWithTag("Player")[0];
     }
 
     // Update is called once per frame
-    Transform bullet;
-    Transform bullet2;
+
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-        if (transform.position.x > target.position.x)
+        Follow(); 
+        if(Mathf.Abs(target.transform.position.x - transform.position.x) < 3.0f)
         {
-            transform.localScale = new Vector2(initialXScale, transform.localScale.y);
-
+            Shoot();
         }
-        else
-        {
-            transform.localScale = new Vector2(-initialXScale, transform.localScale.y);
-        }
-
-            if (Mathf.Abs(transform.position.x - target.position.x) < 5.0f)
-            {
-                AIShooting();
-            }
-
-        }
-
-        
-        
-    
-    
-    void AIShooting()
-    {
-        if(shootingTime <= 0)
-        {
-            shootingTime = shootingNeedTime;
-            if (transform.position.x <= target.position.x)
-                bullet = Instantiate(bulletPrefab, transform.position, new Quaternion(0, 0, 0, 0));
-            else
-            {
-                bullet2 = Instantiate(bulletPreb2, transform.position, new Quaternion(0, 0, 0, 0));
-                
-            }
-        }else
-        {
-            shootingTime -= Time.deltaTime;
-        }
-
     }
 
+    void Follow()
+    {
+        playerPos = target.transform.position;
+        selfPos = transform.position;
+        follow = Vector2.MoveTowards(selfPos, playerPos, moveSpeed);
+        rgbd.MovePosition(follow);
+    }
+
+    
+        void Shoot()
+    {
+            if (shootingTime <= 0)
+            {
+                shootingTime = shootingNeedTime;
+                Rigidbody2D bullet = Instantiate(bulletPrefab) as Rigidbody2D;
+                bullet.position = transform.position;
+                if (transform.position.x < target.transform.position.x)
+                {
+                    bullet.velocity = new Vector2(bulletSpeed, 0);
+                }
+                else
+                {
+                    bullet.velocity = new Vector2(-bulletSpeed, 0);
+                }
+
+            }
+            else
+            {
+                shootingTime -= Time.deltaTime;
+            }
 
 
 
+        }
 }

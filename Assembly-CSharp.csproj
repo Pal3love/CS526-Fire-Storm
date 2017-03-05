@@ -51,10 +51,9 @@
      <Compile Include="Assets\scripts\CameraController.cs" />
      <Compile Include="Assets\scripts\ClimbScript.cs" />
      <Compile Include="Assets\scripts\DestroyBullet.cs" />
-     <Compile Include="Assets\scripts\EnemyAI.cs" />
      <Compile Include="Assets\scripts\EnemyAIScript.cs" />
+     <Compile Include="Assets\scripts\EnemyHealthScript.cs" />
      <Compile Include="Assets\scripts\EnemySpawnScript.cs" />
-     <Compile Include="Assets\scripts\HealthScript.cs" />
      <Compile Include="Assets\scripts\MoveScript.cs" />
      <Compile Include="Assets\scripts\PickUp.cs" />
      <Compile Include="Assets\scripts\PickUpScript.cs" />
@@ -65,9 +64,6 @@
      <Compile Include="Assets\scripts\ladder.cs" />
      <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
- <Reference Include="UnityEngine.Purchasing">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
@@ -79,9 +75,6 @@
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
