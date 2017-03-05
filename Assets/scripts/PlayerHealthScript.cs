@@ -6,6 +6,8 @@ public class PlayerHealthScript : MonoBehaviour {
     public int life = 15;
     public int Atk = 1;
     // Use this for initialization
+	//different Atk_value when pick up different equipment 
+	//public int Atk_value_1 = 2;
 
 
 

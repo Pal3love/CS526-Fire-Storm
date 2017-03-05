@@ -7,7 +7,8 @@ public class ClimbScript : MonoBehaviour {
 
 
 	PlayerScript player;
-	float originalGravityScale;
+	public float originalGravityScale;
+	public float speed = 5;
 
 	void OnTriggerEnter2D(Collider2D otherCollider)
 	{
@@ -27,11 +28,15 @@ public class ClimbScript : MonoBehaviour {
 //		Debug.Log("stay function");
 		if (player != null)
 		{ 
-			if (Input.GetKey (KeyCode.W)) { // used a tag to ID collider as player
+			if (Input.GetKey (KeyCode.UpArrow)) { // used a tag to ID collider as player
 				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, 1);
 
-			} else if (Input.GetKey(KeyCode.S)) {
+
+			} else if (Input.GetKey (KeyCode.DownArrow)) {
 				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, -1);
+			
+			} else {
+				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, 0);
 			}
 		}
 	}
@@ -45,7 +50,7 @@ public class ClimbScript : MonoBehaviour {
 
 		if (player != null)
 		{ 
-			player.GetComponent<Rigidbody2D> ().gravityScale = originalGravityScale;
+			player.GetComponent<Rigidbody2D> ().gravityScale = 1;
 
 		}
 	}
