@@ -8,7 +8,7 @@ public class EnemySpawnScript : MonoBehaviour {
     public float SpawnInterval_MAX;
     public float SpawnInterval_MIN;
     public int StartInterval;
-    public Rigidbody[] Enemies;
+    public GameObject[] Enemies;
 
     private Vector3 SpawnPosition;
     private float SpawnInterval;
