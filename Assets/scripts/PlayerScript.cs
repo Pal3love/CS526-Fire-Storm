@@ -12,14 +12,15 @@ public class PlayerScript : MonoBehaviour {
 
 	public float walkSpeed;
 	public float scale;
-
+    public float shotSpeed = 8.0f;
 	public float jumpSpeed;
 	public Vector2 jumpVector;
 	public bool isGrounded;
 	public Transform grounder;
 	public float radiuss;
 	public LayerMask ground;
-    public Rigidbody2D bulletPrefab;
+    public Rigidbody2D bulletPrefab1;
+    public Rigidbody2D bulletPrefab2;
     
 	// Use this for initialization
 	void Start () {
@@ -74,16 +75,18 @@ public class PlayerScript : MonoBehaviour {
 
 		if (shoot)
 		{
-            Rigidbody2D bullet = Instantiate(bulletPrefab) as Rigidbody2D;
-            bullet.position = transform.position;
             if (transform.localScale.x > 0)
             {
-                Debug.Log(transform.localScale);
-                bullet.velocity = new Vector2(8.0f, 0);
+                Rigidbody2D bullet = Instantiate(bulletPrefab1) as Rigidbody2D;
+                bullet.position = transform.position;
+                bullet.velocity = new Vector2(shotSpeed, 0);
+                
             }
             else
             {
-                bullet.velocity = new Vector2(-8.0f, 0);
+                Rigidbody2D bullet = Instantiate(bulletPrefab2) as Rigidbody2D;
+                bullet.position = transform.position;
+                bullet.velocity = new Vector2(-shotSpeed, 0);
             }
             WeaponScript weapon = GetComponent<WeaponScript>();
 			if (weapon != null)
