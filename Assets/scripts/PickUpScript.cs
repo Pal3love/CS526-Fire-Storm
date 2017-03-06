@@ -5,6 +5,7 @@ using UnityEngine;
 public class PickUpScript : MonoBehaviour {
 
 	PlayerScript player;
+    PlayerHealthScript damage;
 
 	void OnTriggerEnter2D(Collider2D otherCollider)
 	{
@@ -12,12 +13,13 @@ public class PickUpScript : MonoBehaviour {
 		Debug.Log("entered pick up");
 		// Is this player?
 		player = otherCollider.gameObject.GetComponent<PlayerScript>();
+        damage = otherCollider.gameObject.GetComponent<PlayerHealthScript>();
 
-		if (player != null)
+        if (player != null)
 		{ 
 			Destroy(gameObject, 0);
 
-			//add effect
+            damage.enemyAtk++;//add effect
 		}
 	}
 		
