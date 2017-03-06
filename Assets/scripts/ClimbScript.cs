@@ -12,8 +12,6 @@ public class ClimbScript : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D otherCollider)
 	{
-
-		Debug.Log("entered ");
 		// Is this player?
 		player = otherCollider.gameObject.GetComponent<PlayerScript>();
 
@@ -25,8 +23,6 @@ public class ClimbScript : MonoBehaviour {
 	}
 	void OnTriggerStay2D(Collider2D otherCollider)
 	{
-		Debug.Log("stay function");
-
 		if (player != null)
 		{ 
 			if (Input.GetKey (KeyCode.UpArrow)) { // used a tag to ID collider as player
@@ -45,13 +41,9 @@ public class ClimbScript : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D otherCollider)
 	{
-
-		Debug.Log("tigger exit");
-
 		if (player != null)
 		{ 
 			player.GetComponent<Rigidbody2D> ().gravityScale = 1;
-
 		}
 	}
 

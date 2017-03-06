@@ -21,7 +21,7 @@ public class EnemyHealthScript : MonoBehaviour {
 	}
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Playershot")
+        if (col.tag == "PlayerShot")
         {
            currentHP -= Atk; //生命值-10
 

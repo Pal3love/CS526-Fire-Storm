@@ -78,6 +78,7 @@ public class PlayerScript : MonoBehaviour {
             bullet.position = transform.position;
             if (transform.localScale.x > 0)
             {
+                Debug.Log(transform.localScale);
                 bullet.velocity = new Vector2(8.0f, 0);
             }
             else

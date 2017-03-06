@@ -18,8 +18,10 @@ public class PickUpScript : MonoBehaviour {
         if (player != null)
 		{ 
 			Destroy(gameObject, 0);
-
-            damage.enemyAtk++;//add effect
+            if (damage != null)
+            {
+                damage.enemyAtk++;
+            }//add effect
 		}
 	}
 		
