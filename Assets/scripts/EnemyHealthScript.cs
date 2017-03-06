@@ -1,72 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealthScript : MonoBehaviour {
 
-    /// <summary>
-    /// Total hitpoints
-    ///// </summary>
-    //public int hp = 15;
-
-    ///// <summary>
-    ///// Enemy or player?
-    ///// </summary>
-    //public bool isEnemy = true;
-
-    ///// <summary>
-    ///// Inflicts damage and check if the object should be destroyed
-    ///// </summary>
-    ///// <param name="damageCount"></param>
-    //public void Damage(int damageCount)
-    //{
-    //	hp -= damageCount;
-
-    //	if (hp <= 0)
-    //	{
-    //		// Dead!
-    //		Destroy(gameObject);
-    //	}
-    //}
-
-    //void OnTriggerEnter2D(Collider2D otherCollider)
-    //{
-    //	// Is this a shot?
-    //	ShotScript shot = otherCollider.gameObject.GetComponent<ShotScript>();
-
-    //	if (shot != null)
-    //	{
-    //		// Avoid friendly fire
-    //		if (shot.isEnemyShot != isEnemy)
-    //		{
-    //			Damage(shot.damage);
-
-    //			// Destroy the shot
-    //			Destroy(shot.gameObject); // Remember to always target the game object, otherwise you will just remove the script
-    //		}
-    //	}
-    //}
-
-    public int enemyHP = 3;
-    public int Atk = 1;
-
-    void Start()
-    {
-
+    public float enemyHP = 3;
+    public float currentHP;
+    public float Atk = 1;
+    public Slider healthBar;
+    
+	void Start () {
+        currentHP = enemyHP;
+        healthBar.value = caculateHealth();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "PlayerShot")
+        if (col.tag == "Playershot")
         {
-            enemyHP -= Atk; //生命值-10
-            if (enemyHP <= 0)
+           currentHP -= Atk; //生命值-10
+
+            healthBar.value = currentHP/enemyHP;
+            if (currentHP <= 0)
             {
                 Destroy(gameObject); //摧毀物件
 
@@ -76,6 +36,9 @@ public class EnemyHealthScript : MonoBehaviour {
 
     }
 
-    // Use this for initialization
-    
+    float caculateHealth()
+    {
+        return currentHP / enemyHP;
+    }
+
 }
