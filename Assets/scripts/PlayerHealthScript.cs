@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealthScript : MonoBehaviour {
     public int life = 5;
@@ -16,10 +17,10 @@ public class PlayerHealthScript : MonoBehaviour {
         if (other.tag == "EnemyBullet")
         {
             life -= enemyAtk;
-
             if (life <= 0)
             {
                 Destroy(gameObject);
+                SceneManager.LoadScene(1);
             }
             Destroy(other.gameObject);
         }
