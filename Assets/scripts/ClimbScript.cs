@@ -31,11 +31,11 @@ public class ClimbScript : MonoBehaviour {
 		{ 
 			if (Input.GetKey (KeyCode.UpArrow)) { // used a tag to ID collider as player
 
-				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, 1);
+				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, speed);
 
 
 			} else if (Input.GetKey (KeyCode.DownArrow)) {
-				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, -1);
+				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, -speed);
 
 			} else {
 				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, 0);
