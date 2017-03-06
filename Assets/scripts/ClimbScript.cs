@@ -37,11 +37,6 @@ public class ClimbScript : MonoBehaviour {
 			} else if (Input.GetKey (KeyCode.DownArrow)) {
 				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, -1);
 
-				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0,  1);
-
-			} else if (Input.GetKey (KeyCode.DownArrow)) {
-				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, -1);
-
 			} else {
 				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, 0);
 			}
