@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{418D8D40-3EAC-6CD3-14AB-6847FAB38A4C}</ProjectGuid>
+    <ProjectGuid>{DAD2F1FB-9E64-1828-7984-DC27DFDCA97A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -46,24 +46,40 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\scripts\ActiveStateToggler.cs" />
+     <Compile Include="Assets\scripts\ApplicationManager.cs" />
      <Compile Include="Assets\scripts\BulletLeftMove.cs" />
      <Compile Include="Assets\scripts\BulletRightMove.cs" />
      <Compile Include="Assets\scripts\CameraController.cs" />
+     <Compile Include="Assets\scripts\ChangeColor.cs" />
      <Compile Include="Assets\scripts\ClimbScript.cs" />
      <Compile Include="Assets\scripts\DestroyBullet.cs" />
+     <Compile Include="Assets\scripts\DragMe.cs" />
+     <Compile Include="Assets\scripts\DragPanel.cs" />
+     <Compile Include="Assets\scripts\DropMe.cs" />
      <Compile Include="Assets\scripts\EnemyAIScript.cs" />
      <Compile Include="Assets\scripts\EnemyHealthScript.cs" />
      <Compile Include="Assets\scripts\EnemySpawnScript.cs" />
      <Compile Include="Assets\scripts\MoveScript.cs" />
-     <Compile Include="Assets\scripts\PickUp.cs" />
+     <Compile Include="Assets\scripts\PanelManager.cs" />
      <Compile Include="Assets\scripts\PickUpScript.cs" />
      <Compile Include="Assets\scripts\PlayerHealthScript.cs" />
      <Compile Include="Assets\scripts\PlayerScript.cs" />
+     <Compile Include="Assets\scripts\ResizePanel.cs" />
+     <Compile Include="Assets\scripts\ScrollDetailTexture.cs" />
+     <Compile Include="Assets\scripts\SelectOnInput.cs" />
      <Compile Include="Assets\scripts\ShotScript.cs" />
+     <Compile Include="Assets\scripts\ShowSliderValue.cs" />
+     <Compile Include="Assets\scripts\TiltWindow.cs" />
      <Compile Include="Assets\scripts\WeaponScript.cs" />
      <Compile Include="Assets\scripts\ladder.cs" />
+     <Compile Include="Assets\scripts\loadSceneOnClick.cs" />
+     <Compile Include="Assets\scripts\quitOnClick.cs" />
+     <None Include="Assets\Fonts\Jupiter\LICENSE.txt" />
+     <None Include="Assets\Textures and Sprites\SF UI\Background\LICENSE.txt" />
      <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+     <None Include="Assets\Materials\UI-Default-No-Alpha.shader" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
@@ -85,7 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{086A9293-2136-6D34-DDD7-132CD02EAF9D}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{3A0838C3-FB19-0071-3F92-E2CD60C8AD08}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
