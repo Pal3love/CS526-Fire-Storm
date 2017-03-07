@@ -32,6 +32,7 @@ public class PlayerHealthScript : MonoBehaviour {
             if (life <= 0)
             {
                 Destroy(gameObject);
+                SceneManager.LoadScene("EndGame");
             }
 
         }
