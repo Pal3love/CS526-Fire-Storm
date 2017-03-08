@@ -43,7 +43,7 @@ public class ClimbScript : MonoBehaviour {
 	{
 		if (player != null)
 		{ 
-			player.GetComponent<Rigidbody2D> ().gravityScale = 1;
+			player.GetComponent<Rigidbody2D> ().gravityScale = 5;
 		}
 	}
 

@@ -109,7 +109,7 @@ public class PlayerScript : MonoBehaviour {
 //		rigidbodyComponent.velocity = movement;
 	}
 
-	void onDrawGizmos(){
+	void OnDrawGizmos(){
 		Gizmos.color = Color.white;
 		Gizmos.DrawWireSphere (grounder.transform.position, radiuss);
 	}
