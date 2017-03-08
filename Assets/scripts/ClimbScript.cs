@@ -8,7 +8,7 @@ public class ClimbScript : MonoBehaviour {
 
 	PlayerScript player;
 	public float originalGravityScale;
-	public float speed = 5;
+	public float speed = 3;
 
 	void OnTriggerEnter2D(Collider2D otherCollider)
 	{

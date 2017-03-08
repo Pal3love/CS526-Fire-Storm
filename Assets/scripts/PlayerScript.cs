@@ -21,6 +21,8 @@ public class PlayerScript : MonoBehaviour {
 	public LayerMask ground;
     public Rigidbody2D bulletPrefab1;
     public Rigidbody2D bulletPrefab2;
+
+	private bool isClimbing = false;
     
 	// Use this for initialization
 	void Start () {
@@ -73,8 +75,9 @@ public class PlayerScript : MonoBehaviour {
 		shoot |= Input.GetButtonDown("Fire2");
 		// Careful: For Mac users, ctrl + arrow is a bad idea
 
-		if (shoot)
+		if (!isClimbing && shoot)
 		{
+			
             if (transform.localScale.x > 0)
             {
                 Rigidbody2D bullet = Instantiate(bulletPrefab1) as Rigidbody2D;
@@ -109,6 +112,26 @@ public class PlayerScript : MonoBehaviour {
 	void onDrawGizmos(){
 		Gizmos.color = Color.white;
 		Gizmos.DrawWireSphere (grounder.transform.position, radiuss);
+	}
+
+	void OnTriggerEnter2D(Collider2D otherCollider)
+	{
+		Debug.Log ("!!!!!!!");
+		if (otherCollider.tag == "Rope") {
+			if (!isClimbing) {
+				isClimbing = true;
+			}
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D otherCollider)
+	{
+		Debug.Log ("~~~~~~~~~");
+		if (otherCollider.tag == "Rope") {
+			if (isClimbing) {
+				isClimbing = false;
+			}
+		}
 	}
 				
 }
