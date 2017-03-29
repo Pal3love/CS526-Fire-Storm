@@ -2,22 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerHealthScript : MonoBehaviour {
-    public int life = 5;
+    public float life;
+    public float curLife;
     // Use this for initialization
-    public int enemyAtk = 1;
+    public float enemyAtk = 1;
+    public Slider playerSlider;
     // Use this for initialization
-	//different Atk_value when pick up different equipment 
-	//public int Atk_value_1 = 2;
-
+    //different Atk_value when pick up different equipment 
+    //public int Atk_value_1 = 2;
+    void Start()
+    {
+        curLife = life;
+        playerSlider.value = curLife / life;
+    }
     void OnTriggerEnter2D(Collider2D other)
 
     {
         if (other.tag == "EnemyBullet")
         {
-            life -= enemyAtk;
-            if (life <= 0)
+            curLife -= enemyAtk;
+            playerSlider.value = curLife / life;
+            if (curLife <= 0)
             {
                 Destroy(gameObject);
                 SceneManager.LoadScene("EndGame");
@@ -27,9 +35,9 @@ public class PlayerHealthScript : MonoBehaviour {
 
         if (other.tag == "Enemy")
         {
-            life -= enemyAtk;
-
-            if (life <= 0)
+            curLife -= enemyAtk;
+            playerSlider.value = curLife / life;
+            if (curLife <= 0)
             {
                 Destroy(gameObject);
                 SceneManager.LoadScene("EndGame");
@@ -38,9 +46,7 @@ public class PlayerHealthScript : MonoBehaviour {
         }
     }
 
-       void Start () {
-		
-	}
+      
 	
 	// Update is called once per frame
 	void Update () {
