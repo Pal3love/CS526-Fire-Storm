@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\scripts\ActiveStateToggler.cs" />
      <Compile Include="Assets\scripts\ApplicationManager.cs" />
+     <Compile Include="Assets\scripts\Boss.cs" />
      <Compile Include="Assets\scripts\BulletLeftMove.cs" />
      <Compile Include="Assets\scripts\BulletRightMove.cs" />
      <Compile Include="Assets\scripts\CameraController.cs" />
