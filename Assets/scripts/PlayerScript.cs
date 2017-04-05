@@ -14,9 +14,8 @@ public class PlayerScript : MonoBehaviour {
 	public float scale;
     public float shotSpeed = 8.0f;
 	public float jumpSpeed;
-	public Vector2 jumpVector;
+	public Vector2 jumpVector = new Vector2(0, 230);
 	public bool isGrounded;
-	public Transform grounder;
 	public float radiuss;
 	public LayerMask ground;
     public Rigidbody2D bulletPrefab1;
@@ -63,9 +62,9 @@ public class PlayerScript : MonoBehaviour {
 			
 
 		// 5 - Jumping
-		isGrounded = Physics2D.OverlapCircle(grounder.transform.position,radiuss,ground);
 		if(Input.GetKey(KeyCode.UpArrow) && isGrounded){
 			rigidbodyComponent.AddForce (jumpVector, ForceMode2D.Force);
+            isGrounded = false;
 		}
 
 
@@ -109,14 +108,8 @@ public class PlayerScript : MonoBehaviour {
 //		rigidbodyComponent.velocity = movement;
 	}
 
-	void OnDrawGizmos(){
-		Gizmos.color = Color.white;
-		Gizmos.DrawWireSphere (grounder.transform.position, radiuss);
-	}
-
 	void OnTriggerEnter2D(Collider2D otherCollider)
 	{
-		Debug.Log ("!!!!!!!");
 		if (otherCollider.tag == "Rope") {
 			if (!isClimbing) {
 				isClimbing = true;
@@ -126,12 +119,16 @@ public class PlayerScript : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D otherCollider)
 	{
-		Debug.Log ("~~~~~~~~~");
 		if (otherCollider.tag == "Rope") {
 			if (isClimbing) {
 				isClimbing = false;
 			}
 		}
 	}
-				
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+            isGrounded = true;
+    }
 }
