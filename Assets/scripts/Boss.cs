@@ -3,8 +3,6 @@ using System.Collections;
 
 public class bossscript : MonoBehaviour
 {
-
-
     public float hp = 100;
     public Transform[] spots;
     public float speed;
