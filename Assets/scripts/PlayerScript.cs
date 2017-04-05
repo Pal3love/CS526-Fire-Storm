@@ -14,7 +14,7 @@ public class PlayerScript : MonoBehaviour {
 	public float scale;
     public float shotSpeed = 8.0f;
 	public float jumpSpeed;
-	public Vector2 jumpVector;
+	public Vector2 jumpVector = new Vector2(0, 230);
 	public bool isGrounded;
 	public float radiuss;
 	public LayerMask ground;
