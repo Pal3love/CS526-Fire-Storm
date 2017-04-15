@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-	public const float CAMERA_LEFT_BOUNDARY = -15f;
-	public const float CAMERA_RIGHT_BOUNDARY = 16f;
-	public const float CAMERA_BOTTOM_BOUNDARY = -13.5f;
-	public const float CAMERA_TOP_BOUNDARY = 14f;
+	public const float CAMERA_LEFT_BOUNDARY = -14f;
+	public const float CAMERA_RIGHT_BOUNDARY = 15f;
+	public const float CAMERA_BOTTOM_BOUNDARY = -12f;
+	public const float CAMERA_TOP_BOUNDARY = 13f;
 
-	public static float pixelsToUnits = 1f;
-	public static float scale = 1f;
-	public Vector2 nativeResolution = new Vector2 (16, 9);
+	// public static float pixelsToUnits = 1f;
+	// public static float scale = 1f;
+	// public Vector2 nativeResolution = new Vector2 (16, 9);
 	public GameObject player;
 	private Vector3 offset;
 

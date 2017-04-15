@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;  // Added by Shiyu He
+using UnityEngine.UI;  // Added by Shiyu He for score support
 
 public class PlayerScript : MonoBehaviour {
 
 	public const float PLAYER_POSITION_LEFT_BOUNDARY = -24f;
 	public const float PLAYER_POSITION_RIGHT_BOUNDARY = 25f;
 
+	public Text scoreText;
+	public long playerScore;
+
 	public Rigidbody2D rigidbodyComponent;
 
 	public float walkSpeed;
+	public int Atk = 1;
 	public float scale;
     public float shotSpeed = 8.0f;
 	public float jumpSpeed;
@@ -23,10 +28,13 @@ public class PlayerScript : MonoBehaviour {
     public Rigidbody2D bulletPrefab2;
 
 	private bool isClimbing = false;
+	private bool isWalking = false;
+	private float originalWalkingSpeed;
     
 	// Use this for initialization
 	void Start () {
-		
+		this.playerScore = 0;
+		this.originalWalkingSpeed = walkSpeed;
 	}
 	
 	// Update is called once per frame
@@ -47,32 +55,43 @@ public class PlayerScript : MonoBehaviour {
 		}
 		transform.position = currPlayerPos;
 
-		if(Input.GetKey(KeyCode.RightArrow)){
-			
+		// if(Input.GetKey(KeyCode.RightArrow)){
+		if (CrossPlatformInputManager.GetAxis ("Horizontal") > 0.4f || Input.GetKey(KeyCode.RightArrow)) {  // Replaced by touchscreen control (Shiyu He)
+			this.isWalking = true;
 			rigidbodyComponent.velocity = new Vector2 (walkSpeed,rigidbodyComponent.velocity.y);
 			transform.localScale = new Vector3 (scale, scale, 1);
 
-		}else if(Input.GetKey(KeyCode.LeftArrow)){
-
+		// } else if (Input.GetKey(KeyCode.LeftArrow)) {
+		} else if (CrossPlatformInputManager.GetAxis ("Horizontal") < -0.4f || Input.GetKey(KeyCode.LeftArrow)) {  // Replaced by touchscreen control (Shiyu He)
+			this.isWalking = true;
 			rigidbodyComponent.velocity = new Vector2 (-walkSpeed,rigidbodyComponent.velocity.y);
 			transform.localScale = new Vector3 (-scale, scale, 1);
-		}
-		else{
+		} else {
+			this.isWalking = false;
 			rigidbodyComponent.velocity = new Vector2 (0,rigidbodyComponent.velocity.y);
 		}
-			
+
+		// Blinking boost, added by Shiyu He
+		if (CrossPlatformInputManager.GetButtonDown ("Blink") && isWalking) {
+			this.walkSpeed = 35f;
+		}
+		if (this.walkSpeed > this.originalWalkingSpeed) {
+			this.walkSpeed -= 1.5f;
+		}
 
 		// 5 - Jumping
 		isGrounded = Physics2D.OverlapCircle(grounder.transform.position,radiuss,ground);
-		if(Input.GetKey(KeyCode.UpArrow) && isGrounded){
+		if((CrossPlatformInputManager.GetAxis ("Vertical") > 0.4f || Input.GetKey(KeyCode.UpArrow)) && isGrounded){  // Replaced by touchscreen control (Shiyu He)
+		// if(Input.GetKey(KeyCode.UpArrow) && isGrounded){
 			rigidbodyComponent.AddForce (jumpVector, ForceMode2D.Force);
 		}
 
 
 		// 6 - Shooting
-//		bool shoot = CrossPlatformInputManager.GetButton("FIRE");  // Replaced by touchscreen control (Shiyu He)
-		bool shoot = Input.GetButtonDown("Fire1");
-		shoot |= Input.GetButtonDown("Fire2");
+	    // bool shoot = Input.GetButtonDown("Fire1");
+	    // shoot |= Input.GetButtonDown("Fire2");
+		bool shoot = CrossPlatformInputManager.GetButtonDown("Shoot") || Input.GetButtonDown("Fire1");  // Replaced by touchscreen control (Shiyu He)
+		shoot |= CrossPlatformInputManager.GetButtonDown("Shoot") || Input.GetButtonDown("Fire2");
 		// Careful: For Mac users, ctrl + arrow is a bad idea
 
 		if (!isClimbing && shoot)
@@ -102,6 +121,9 @@ public class PlayerScript : MonoBehaviour {
 
 	void FixedUpdate()
 	{
+		// Get current score and print it
+		this.scoreText.text = "SCORE: " + this.playerScore.ToString();
+
 		// 5 - Get the component and store the reference
 		if (rigidbodyComponent == null) rigidbodyComponent = GetComponent<Rigidbody2D>();
 
