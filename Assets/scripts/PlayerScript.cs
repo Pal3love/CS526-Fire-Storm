@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityStandardAssets.CrossPlatformInput;  // Added by Shiyu He
 
 public class PlayerScript : MonoBehaviour {
 
 	public const float PLAYER_POSITION_LEFT_BOUNDARY = -24f;
 	public const float PLAYER_POSITION_RIGHT_BOUNDARY = 25f;
+
+    public static PlayerScript playerScript;
 
 	public Rigidbody2D rigidbodyComponent;
 
@@ -21,12 +25,19 @@ public class PlayerScript : MonoBehaviour {
     public Rigidbody2D bulletPrefab1;
     public Rigidbody2D bulletPrefab2;
 
-	private bool isClimbing = false;
+    public int playerHP = 10;
+    public int currentHP;
+    public int Atk = 1;
+    public Slider playerSlider;
+
+    private bool isClimbing = false;
+    public bool isCircleAttack = false;
     
 	// Use this for initialization
 	void Start () {
-		
-	}
+        currentHP = playerHP;
+        playerSlider.value = currentHP / playerHP;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -97,6 +108,19 @@ public class PlayerScript : MonoBehaviour {
 				weapon.Attack(false);
 			}
 		}
+
+
+        // Circle Attack
+        if(isCircleAttack)
+        {
+            GameObject[] enemyList = GameObject.FindGameObjectsWithTag("Enemy");
+            for(int i = 0; i < enemyList.Length; i++)
+            {
+                float dis = Vector3.Distance(transform.position, enemyList[i].transform.position);
+                if (dis < 3.1 && dis > 3.0)
+                    enemyList[i].GetComponent<EnemyAIScript>().currentHP--;
+            }
+        }
 	}
 
 	void FixedUpdate()
@@ -115,7 +139,31 @@ public class PlayerScript : MonoBehaviour {
 				isClimbing = true;
 			}
 		}
-	}
+
+            if (otherCollider.tag == "EnemyBullet")
+            {
+                currentHP -= otherCollider.GetComponent<EnemyBulletScript>().enemyAtk;
+                playerSlider.value = currentHP / playerHP;
+                if (currentHP <= 0)
+                {
+                    Destroy(gameObject);
+                    SceneManager.LoadScene("EndGame");
+                }
+                Destroy(otherCollider.gameObject);
+            }
+
+            if (otherCollider.tag == "Enemy")
+            {
+                currentHP -= otherCollider.GetComponent<EnemyBulletScript>().enemyAtk;
+                playerSlider.value = currentHP / playerHP;
+                if (currentHP <= 0)
+                {
+                    Destroy(gameObject);
+                    SceneManager.LoadScene("EndGame");
+                }
+
+            }
+    }
 
 	void OnTriggerExit2D(Collider2D otherCollider)
 	{
@@ -130,5 +178,11 @@ public class PlayerScript : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Ground")
             isGrounded = true;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, 3);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyAIScript : MonoBehaviour
 {
@@ -16,12 +17,20 @@ public class EnemyAIScript : MonoBehaviour
     public Vector2 playerPos;
     public Vector2 selfPos;
     public Vector2 follow;
+
+    public int enemyHP = 3;
+    public int currentHP;
+    public int Atk = 1;
+    public Slider healthBar;
     // Use this for initialization
     void Start()
     {
        
         rgbd = GetComponent<Rigidbody2D>();
         target = GameObject.FindGameObjectsWithTag("Player")[0];
+
+        currentHP = enemyHP;
+        healthBar.value = caculateHealth();
     }
 
     // Update is called once per frame
@@ -33,6 +42,9 @@ public class EnemyAIScript : MonoBehaviour
         {
             Shoot();
         }
+
+        if (currentHP <= 0)
+            Destroy(gameObject);
     }
 
     void Follow()
@@ -43,30 +55,42 @@ public class EnemyAIScript : MonoBehaviour
         rgbd.MovePosition(follow);
     }
 
-    
-        void Shoot()
+    void OnTriggerEnter2D(Collider2D col)
     {
-            if (shootingTime <= 0)
-            {
-                shootingTime = shootingNeedTime;
-                Rigidbody2D bullet = Instantiate(bulletPrefab) as Rigidbody2D;
-                bullet.position = transform.position;
-                if (transform.position.x < target.transform.position.x)
-                {
-                    bullet.velocity = new Vector2(bulletSpeed, 0);
-                }
-                else
-                {
-                    bullet.velocity = new Vector2(-bulletSpeed, 0);
-                }
+        if (col.tag == "PlayerShot")
+        {
+            currentHP -= PlayerScript.playerScript.Atk;
+            healthBar.value = currentHP / enemyHP;
 
+            Destroy(col.gameObject);
+        }
+    }
+
+    void Shoot()
+    {
+        if (shootingTime <= 0)
+        {
+            shootingTime = shootingNeedTime;
+            Rigidbody2D bullet = Instantiate(bulletPrefab) as Rigidbody2D;
+            bullet.position = transform.position;
+            bullet.GetComponent<EnemyBulletScript>().enemyAtk = Atk;
+            if (transform.position.x < target.transform.position.x)
+            {
+                bullet.velocity = new Vector2(bulletSpeed, 0);
             }
             else
             {
-                shootingTime -= Time.deltaTime;
+                bullet.velocity = new Vector2(-bulletSpeed, 0);
             }
-
-
-
         }
+        else
+        {
+            shootingTime -= Time.deltaTime;
+        }
+    }
+
+    float caculateHealth()
+    {
+        return currentHP / enemyHP;
+    }
 }
