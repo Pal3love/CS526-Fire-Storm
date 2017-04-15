@@ -1,11 +1,11 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{9B4A34B1-81DB-ADAC-39C7-8F32711D458C}") = "CS526-Fire-Storm", "Assembly-CSharp-firstpass.csproj", "{086A9293-2136-6D34-DDD7-132CD02EAF9D}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS526-Fire-Storm", "Assembly-CSharp-firstpass.csproj", "{086A9293-2136-6D34-DDD7-132CD02EAF9D}"
 EndProject
-Project("{9B4A34B1-81DB-ADAC-39C7-8F32711D458C}") = "CS526-Fire-Storm", "Assembly-CSharp.csproj", "{418D8D40-3EAC-6CD3-14AB-6847FAB38A4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS526-Fire-Storm", "Assembly-CSharp.csproj", "{418D8D40-3EAC-6CD3-14AB-6847FAB38A4C}"
 EndProject
-Project("{9B4A34B1-81DB-ADAC-39C7-8F32711D458C}") = "CS526-Fire-Storm", "Assembly-CSharp-Editor-firstpass.csproj", "{A072593A-5D12-6244-878F-60736CCE24D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS526-Fire-Storm", "Assembly-CSharp-Editor-firstpass.csproj", "{A072593A-5D12-6244-878F-60736CCE24D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
