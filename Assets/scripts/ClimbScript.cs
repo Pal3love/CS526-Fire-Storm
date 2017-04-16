@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityStandardAssets.CrossPlatformInput;  // Added by Shiyu He
 
 public class ClimbScript : MonoBehaviour {
 
@@ -25,12 +26,13 @@ public class ClimbScript : MonoBehaviour {
 	{
 		if (player != null)
 		{ 
-			if (Input.GetKey (KeyCode.UpArrow)) { // used a tag to ID collider as player
+			// if (Input.GetKey (KeyCode.UpArrow)) { // used a tag to ID collider as player
+			if (CrossPlatformInputManager.GetAxis ("Vertical") > 0.4f || Input.GetKey (KeyCode.UpArrow)) {  // Replaced by Touchscreen control (Shiyu He)
 
 				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, speed);
 
-
-			} else if (Input.GetKey (KeyCode.DownArrow)) {
+			// } else if (Input.GetKey (KeyCode.DownArrow)) {
+			} else if (CrossPlatformInputManager.GetAxis ("Vertical") < -0.4f || Input.GetKey (KeyCode.DownArrow)) {  // Replaced by Touchscreen control (Shiyu He)
 				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, -speed);
 
 			} else {

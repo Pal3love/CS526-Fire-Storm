@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;  // Added by Shiyu He
 
 public class WeaponScript : MonoBehaviour {
 
@@ -36,8 +37,10 @@ public class WeaponScript : MonoBehaviour {
 		//	shootCooldown -= Time.deltaTime;
 		//}
 		// 5 - Shooting
-		bool shoot = Input.GetButtonDown("Fire1");
-		shoot |= Input.GetButtonDown("Fire2");
+		bool shoot = CrossPlatformInputManager.GetButtonDown("Shoot") || Input.GetButtonDown("Fire1");
+		shoot |= CrossPlatformInputManager.GetButtonDown("Shoot") || Input.GetButtonDown("Fire2");
+		// bool shoot = Input.GetButtonDown("Fire1");
+		// shoot |= Input.GetButtonDown("Fire2");
 		// Careful: For Mac users, ctrl + arrow is a bad idea
 
 		if (shoot)
