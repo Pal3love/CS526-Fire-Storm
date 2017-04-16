@@ -10,8 +10,6 @@ public class PlayerScript : MonoBehaviour {
 	public const float PLAYER_POSITION_LEFT_BOUNDARY = -24f;
 	public const float PLAYER_POSITION_RIGHT_BOUNDARY = 25f;
 
-    public static PlayerScript playerScript;
-
 	public Rigidbody2D rigidbodyComponent;
 
 	public float walkSpeed;
@@ -140,29 +138,28 @@ public class PlayerScript : MonoBehaviour {
 			}
 		}
 
-            if (otherCollider.tag == "EnemyBullet")
+        if (otherCollider.tag == "EnemyBullet")
+        {
+            currentHP -= otherCollider.GetComponent<EnemyBulletScript>().enemyAtk;
+            playerSlider.value = currentHP / playerHP;
+            if (currentHP <= 0)
             {
-                currentHP -= otherCollider.GetComponent<EnemyBulletScript>().enemyAtk;
-                playerSlider.value = currentHP / playerHP;
-                if (currentHP <= 0)
-                {
-                    Destroy(gameObject);
-                    SceneManager.LoadScene("EndGame");
-                }
-                Destroy(otherCollider.gameObject);
+                Destroy(gameObject);
+                SceneManager.LoadScene("EndGame");
             }
+            Destroy(otherCollider.gameObject);
+        }
 
-            if (otherCollider.tag == "Enemy")
+        if (otherCollider.tag == "Enemy")
+        {
+            currentHP -= otherCollider.GetComponent<EnemyAIScript>().Atk;
+            playerSlider.value = currentHP / playerHP;
+            if (currentHP <= 0)
             {
-                currentHP -= otherCollider.GetComponent<EnemyBulletScript>().enemyAtk;
-                playerSlider.value = currentHP / playerHP;
-                if (currentHP <= 0)
-                {
-                    Destroy(gameObject);
-                    SceneManager.LoadScene("EndGame");
-                }
-
+                Destroy(gameObject);
+                SceneManager.LoadScene("EndGame");
             }
+        }
     }
 
 	void OnTriggerExit2D(Collider2D otherCollider)

@@ -59,7 +59,7 @@ public class EnemyAIScript : MonoBehaviour
     {
         if (col.tag == "PlayerShot")
         {
-            currentHP -= PlayerScript.playerScript.Atk;
+            currentHP -= target.GetComponent<PlayerScript>().Atk;
             healthBar.value = currentHP / enemyHP;
 
             Destroy(col.gameObject);
