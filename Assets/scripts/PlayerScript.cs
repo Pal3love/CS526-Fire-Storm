@@ -23,9 +23,9 @@ public class PlayerScript : MonoBehaviour {
     public Rigidbody2D bulletPrefab1;
     public Rigidbody2D bulletPrefab2;
 
-    public int playerHP = 10;
-    public int currentHP;
-    public int Atk = 1;
+    public float playerHP = 10;
+    public float currentHP;
+    public float Atk = 1;
     public Slider playerSlider;
 
     private bool isClimbing = false;
@@ -159,6 +159,7 @@ public class PlayerScript : MonoBehaviour {
                 Destroy(gameObject);
                 SceneManager.LoadScene("EndGame");
             }
+            Destroy(otherCollider.gameObject);
         }
     }
 

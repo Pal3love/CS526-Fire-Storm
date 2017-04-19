@@ -18,9 +18,9 @@ public class EnemyAIScript : MonoBehaviour
     public Vector2 selfPos;
     public Vector2 follow;
 
-    public int enemyHP = 3;
-    public int currentHP;
-    public int Atk = 1;
+    public float enemyHP = 3;
+    public float currentHP;
+    public float Atk = 1;
     public Slider healthBar;
     // Use this for initialization
     void Start()
@@ -30,7 +30,7 @@ public class EnemyAIScript : MonoBehaviour
         target = GameObject.FindGameObjectsWithTag("Player")[0];
 
         currentHP = enemyHP;
-        healthBar.value = caculateHealth();
+        healthBar.value = currentHP/enemyHP;
     }
 
     // Update is called once per frame
@@ -38,7 +38,7 @@ public class EnemyAIScript : MonoBehaviour
     void Update()
     {
         Follow(); 
-        if(Mathf.Abs(target.transform.position.x - transform.position.x) < 3.0f)
+        if(Mathf.Abs(target.transform.position.x - transform.position.x) <5.0f)
         {
             Shoot();
         }
@@ -61,7 +61,11 @@ public class EnemyAIScript : MonoBehaviour
         {
             currentHP -= target.GetComponent<PlayerScript>().Atk;
             healthBar.value = currentHP / enemyHP;
-
+            if (currentHP <= 0)
+            {
+                Destroy(gameObject);
+            }
+           
             Destroy(col.gameObject);
         }
     }
@@ -87,10 +91,5 @@ public class EnemyAIScript : MonoBehaviour
         {
             shootingTime -= Time.deltaTime;
         }
-    }
-
-    float caculateHealth()
-    {
-        return currentHP / enemyHP;
     }
 }

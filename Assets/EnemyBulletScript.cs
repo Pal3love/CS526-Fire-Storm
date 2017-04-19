@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class EnemyBulletScript : MonoBehaviour {
 
-    public int enemyAtk;
+    public float enemyAtk;
 }
