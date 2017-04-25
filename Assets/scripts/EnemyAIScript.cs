@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class EnemyAIScript : MonoBehaviour
 {
 
-    public float moveSpeed = 1f;
+    public float moveSpeed = 0.01f;
     public GameObject target;
     float shootingTime = 0.5f;
     float shootingNeedTime = 1.0f;
