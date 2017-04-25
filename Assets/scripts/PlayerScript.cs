@@ -30,23 +30,29 @@ public class PlayerScript : MonoBehaviour {
 
     private bool isClimbing = false;
     public bool isCircleAttack = false;
-    
-	// Use this for initialization
-	void Start () {
+    private Animator Animor;
+    private bool bIsAttack = false;
+
+    private void Awake()
+    {
+        Animor = GetComponent<Animator>();
+    }
+    // Use this for initialization
+    void Start () {
         currentHP = playerHP;
         playerSlider.value = currentHP / playerHP;
     }
 	
 	// Update is called once per frame
 	void Update () {
-		// 3 - Retrieve axis information
-//		float inputX = Input.GetAxis("Horizontal");
-//		float inputY = Input.GetAxis("Vertical");
-//		float inputX = CrossPlatformInputManager.GetAxis ("Horizontal");  // Replaced by touchscreen control (Shiyu He)
-//		float inputY = CrossPlatformInputManager.GetAxis ("Vertical");  // Replaced by touchscreen control (Shiyu He)
+        // 3 - Retrieve axis information
+        //		float inputX = Input.GetAxis("Horizontal");
+        //		float inputY = Input.GetAxis("Vertical");
+        //		float inputX = CrossPlatformInputManager.GetAxis ("Horizontal");  // Replaced by touchscreen control (Shiyu He)
+        //		float inputY = CrossPlatformInputManager.GetAxis ("Vertical");  // Replaced by touchscreen control (Shiyu He)
 
-		// Shiyu He: Set boundry for the player
-		Vector3 currPlayerPos = transform.position;
+        // Shiyu He: Set boundry for the player
+        Vector3 currPlayerPos = transform.position;
 		if (currPlayerPos.x < PLAYER_POSITION_LEFT_BOUNDARY) {
 			currPlayerPos.x = PLAYER_POSITION_LEFT_BOUNDARY;
 		}
@@ -55,19 +61,46 @@ public class PlayerScript : MonoBehaviour {
 		}
 		transform.position = currPlayerPos;
 
-		if(Input.GetKey(KeyCode.RightArrow)){
+        if (Input.GetKey(KeyCode.RightArrow)){
 			
 			rigidbodyComponent.velocity = new Vector2 (walkSpeed,rigidbodyComponent.velocity.y);
 			transform.localScale = new Vector3 (scale, scale, 1);
 
-		}else if(Input.GetKey(KeyCode.LeftArrow)){
+            if (!isClimbing && !bIsAttack)
+            {
+                Animor.SetBool("isWalking", true);
+                Animor.SetBool("isWalk_idle", false);
+                Animor.SetBool("isShooting", false);
+                Animor.SetBool("isClimbing", false);
+                Animor.SetBool("isClimbing_idle", false);
+            }
+        }
+        else if(Input.GetKey(KeyCode.LeftArrow)){
 
 			rigidbodyComponent.velocity = new Vector2 (-walkSpeed,rigidbodyComponent.velocity.y);
 			transform.localScale = new Vector3 (-scale, scale, 1);
-		}
+
+            if (!isClimbing && !bIsAttack)
+            {
+                Animor.SetBool("isWalking", true);
+                Animor.SetBool("isWalk_idle", false);
+                Animor.SetBool("isShooting", false);
+                Animor.SetBool("isClimbing", false);
+                Animor.SetBool("isClimbing_idle", false);
+            }
+        }
 		else{
 			rigidbodyComponent.velocity = new Vector2 (0,rigidbodyComponent.velocity.y);
-		}
+
+            if (!isClimbing && !bIsAttack)
+            {
+                Animor.SetBool("isWalking", false);
+                Animor.SetBool("isWalk_idle", true);
+                Animor.SetBool("isShooting", false);
+                Animor.SetBool("isClimbing", false);
+                Animor.SetBool("isClimbing_idle", false);
+            }
+        }
 			
 
 		// 5 - Jumping
@@ -105,7 +138,18 @@ public class PlayerScript : MonoBehaviour {
 				// false because the player is not an enemy
 				weapon.Attack(false);
 			}
-		}
+
+
+            if (!bIsAttack)
+            {
+                Animor.SetBool("isWalking", false);
+                Animor.SetBool("isWalking_idle", false);
+                Animor.SetBool("isShooting", true);
+                Animor.SetBool("isClimbing", false);
+                Animor.SetBool("isClimbing_idle", false);
+                StartCoroutine(setIsAttack());
+            }  
+        }
 
 
         // Circle Attack
@@ -182,5 +226,14 @@ public class PlayerScript : MonoBehaviour {
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(transform.position, 3);
+    }
+
+    IEnumerator setIsAttack()
+    {
+        bIsAttack = true;
+
+        yield return new WaitForSeconds(8);
+
+        bIsAttack = false;
     }
 }
