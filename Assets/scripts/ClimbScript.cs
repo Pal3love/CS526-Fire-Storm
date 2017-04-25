@@ -7,9 +7,12 @@ using UnityStandardAssets.CrossPlatformInput;  // Added by Shiyu He
 public class ClimbScript : MonoBehaviour {
 
 
-	PlayerScript player;
-	public float originalGravityScale;
-	public float speed = 3;
+	private PlayerScript player;
+    private Animator playerAnimator;
+    private Rigidbody2D playerRigidbody;
+	private float originalGravityScale;
+
+	public float climpSpeed = 3;
 
 	void OnTriggerEnter2D(Collider2D otherCollider)
 	{
@@ -17,27 +20,34 @@ public class ClimbScript : MonoBehaviour {
 		player = otherCollider.gameObject.GetComponent<PlayerScript>();
 
 		if (player != null)
-		{ 
-			originalGravityScale = player.GetComponent<Rigidbody2D>().gravityScale;
-			player.GetComponent<Rigidbody2D> ().gravityScale = 0;
-		}
+		{
+            playerRigidbody = player.GetComponent<Rigidbody2D>();
+            originalGravityScale = playerRigidbody.gravityScale;
+			playerRigidbody.gravityScale = 0;
+
+            playerAnimator = player.GetComponent<Animator>();
+        }
 	}
 	void OnTriggerStay2D(Collider2D otherCollider)
 	{
 		if (player != null)
-		{ 
-			// if (Input.GetKey (KeyCode.UpArrow)) { // used a tag to ID collider as player
-			if (CrossPlatformInputManager.GetAxis ("Vertical") > 0.4f || Input.GetKey (KeyCode.UpArrow)) {  // Replaced by Touchscreen control (Shiyu He)
+		{
+            float VerticalInput = Input.GetAxis("Vertical");
 
-				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, speed);
+            playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, VerticalInput * climpSpeed);
 
-			// } else if (Input.GetKey (KeyCode.DownArrow)) {
-			} else if (CrossPlatformInputManager.GetAxis ("Vertical") < -0.4f || Input.GetKey (KeyCode.DownArrow)) {  // Replaced by Touchscreen control (Shiyu He)
-				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, -speed);
+            //         if (CrossPlatformInputManager.GetAxis ("Vertical") > 0.4f || Input.GetKey (KeyCode.UpArrow)) {  // Replaced by Touchscreen control (Shiyu He)
 
-			} else {
-				player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, 0);
-			}
+            //	player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, climpSpeed);
+
+            //} else if (CrossPlatformInputManager.GetAxis ("Vertical") < -0.4f || Input.GetKey (KeyCode.DownArrow)) {  // Replaced by Touchscreen control (Shiyu He)
+            //	player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, -climpSpeed);
+
+            //} else {
+            //	player.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0, 0);
+            //}
+
+            playerAnimator.SetFloat("VerticalSpeed", Mathf.Abs(VerticalInput));
 		}
 	}
 
@@ -45,16 +55,7 @@ public class ClimbScript : MonoBehaviour {
 	{
 		if (player != null)
 		{ 
-			player.GetComponent<Rigidbody2D> ().gravityScale = 1;
+			playerRigidbody.gravityScale = originalGravityScale;
 		}
-	}
-
-	// Use this for initialization
-	void Start () {
-
-	}
-	// Update is called once per frame
-	void Update () {
-
 	}
 }

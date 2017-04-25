@@ -10,16 +10,18 @@ public class PlayerScript : MonoBehaviour {
 	public const float PLAYER_POSITION_LEFT_BOUNDARY = -24f;
 	public const float PLAYER_POSITION_RIGHT_BOUNDARY = 25f;
 
-	public Rigidbody2D rigidbodyComponent;
+	private Rigidbody2D rigidbodyComponent;
 
-	public float walkSpeed;
-	public float scale;
+    public float walkSpeed = 5;
     public float shotSpeed = 8.0f;
 	public float jumpSpeed;
 	public Vector2 jumpVector = new Vector2(0, 230);
+
 	public bool isGrounded;
 	public float radiuss;
+    public Transform grounder;
 	public LayerMask ground;
+
     public Rigidbody2D bulletPrefab1;
     public Rigidbody2D bulletPrefab2;
 
@@ -29,10 +31,10 @@ public class PlayerScript : MonoBehaviour {
     public Slider playerSlider;
 
     private bool isClimbing = false;
-    public bool isCircleAttack = false;
     private Animator Animor;
-    private bool bIsAttack = false;
 
+    public bool isCircleAttack = false;
+    public int CircleAtk = 1;
     private void Awake()
     {
         Animor = GetComponent<Animator>();
@@ -41,6 +43,8 @@ public class PlayerScript : MonoBehaviour {
     void Start () {
         currentHP = playerHP;
         playerSlider.value = currentHP / playerHP;
+
+        rigidbodyComponent = GetComponent<Rigidbody2D>();
     }
 	
 	// Update is called once per frame
@@ -50,6 +54,8 @@ public class PlayerScript : MonoBehaviour {
         //		float inputY = Input.GetAxis("Vertical");
         //		float inputX = CrossPlatformInputManager.GetAxis ("Horizontal");  // Replaced by touchscreen control (Shiyu He)
         //		float inputY = CrossPlatformInputManager.GetAxis ("Vertical");  // Replaced by touchscreen control (Shiyu He)
+
+        float horizontalInput = Input.GetAxis("Horizontal");
 
         // Shiyu He: Set boundry for the player
         Vector3 currPlayerPos = transform.position;
@@ -61,50 +67,18 @@ public class PlayerScript : MonoBehaviour {
 		}
 		transform.position = currPlayerPos;
 
-        if (Input.GetKey(KeyCode.RightArrow)){
-			
-			rigidbodyComponent.velocity = new Vector2 (walkSpeed,rigidbodyComponent.velocity.y);
-			transform.localScale = new Vector3 (scale, scale, 1);
+        rigidbodyComponent.velocity = new Vector2(horizontalInput * walkSpeed, rigidbodyComponent.velocity.y);
 
-            if (!isClimbing && !bIsAttack)
-            {
-                Animor.SetBool("isWalking", true);
-                Animor.SetBool("isWalk_idle", false);
-                Animor.SetBool("isShooting", false);
-                Animor.SetBool("isClimbing", false);
-                Animor.SetBool("isClimbing_idle", false);
-            }
-        }
-        else if(Input.GetKey(KeyCode.LeftArrow)){
+        if(horizontalInput > 0)
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        else if(horizontalInput < 0)
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
 
-			rigidbodyComponent.velocity = new Vector2 (-walkSpeed,rigidbodyComponent.velocity.y);
-			transform.localScale = new Vector3 (-scale, scale, 1);
+        if(!isClimbing)
+            Animor.SetFloat("HorizontalSpeed", Mathf.Abs(horizontalInput));
 
-            if (!isClimbing && !bIsAttack)
-            {
-                Animor.SetBool("isWalking", true);
-                Animor.SetBool("isWalk_idle", false);
-                Animor.SetBool("isShooting", false);
-                Animor.SetBool("isClimbing", false);
-                Animor.SetBool("isClimbing_idle", false);
-            }
-        }
-		else{
-			rigidbodyComponent.velocity = new Vector2 (0,rigidbodyComponent.velocity.y);
-
-            if (!isClimbing && !bIsAttack)
-            {
-                Animor.SetBool("isWalking", false);
-                Animor.SetBool("isWalk_idle", true);
-                Animor.SetBool("isShooting", false);
-                Animor.SetBool("isClimbing", false);
-                Animor.SetBool("isClimbing_idle", false);
-            }
-        }
-			
-
-		// 5 - Jumping
-		if(Input.GetKey(KeyCode.UpArrow) && isGrounded){
+        // 5 - Jumping
+        if (Input.GetKey(KeyCode.UpArrow) && isGrounded){
 			rigidbodyComponent.AddForce (jumpVector, ForceMode2D.Force);
             isGrounded = false;
 		}
@@ -117,8 +91,7 @@ public class PlayerScript : MonoBehaviour {
 		// Careful: For Mac users, ctrl + arrow is a bad idea
 
 		if (!isClimbing && shoot)
-		{
-			
+		{		
             if (transform.localScale.x > 0)
             {
                 Rigidbody2D bullet = Instantiate(bulletPrefab1) as Rigidbody2D;
@@ -139,18 +112,10 @@ public class PlayerScript : MonoBehaviour {
 				weapon.Attack(false);
 			}
 
-
-            if (!bIsAttack)
-            {
-                Animor.SetBool("isWalking", false);
-                Animor.SetBool("isWalking_idle", false);
-                Animor.SetBool("isShooting", true);
-                Animor.SetBool("isClimbing", false);
-                Animor.SetBool("isClimbing_idle", false);
-                StartCoroutine(setIsAttack());
-            }  
+            Animor.SetTrigger("Shooting");
         }
 
+        Animor.SetBool("isClimbing", isClimbing);
 
         // Circle Attack
         if(isCircleAttack)
@@ -160,7 +125,7 @@ public class PlayerScript : MonoBehaviour {
             {
                 float dis = Vector3.Distance(transform.position, enemyList[i].transform.position);
                 if (dis < 3.1 && dis > 3.0)
-                    enemyList[i].GetComponent<EnemyAIScript>().currentHP--;
+                    enemyList[i].GetComponent<EnemyAIScript>().currentHP -= CircleAtk;
             }
         }
 	}
@@ -169,9 +134,6 @@ public class PlayerScript : MonoBehaviour {
 	{
 		// 5 - Get the component and store the reference
 		if (rigidbodyComponent == null) rigidbodyComponent = GetComponent<Rigidbody2D>();
-
-		// 6 - Move the game object
-//		rigidbodyComponent.velocity = movement;
 	}
 
 	void OnTriggerEnter2D(Collider2D otherCollider)
@@ -222,18 +184,12 @@ public class PlayerScript : MonoBehaviour {
             isGrounded = true;
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(grounder.transform.position, radiuss);
+
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position, 3);
-    }
-
-    IEnumerator setIsAttack()
-    {
-        bIsAttack = true;
-
-        yield return new WaitForSeconds(8);
-
-        bIsAttack = false;
+        Gizmos.DrawWireSphere(transform.position, 3);
     }
 }

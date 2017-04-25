@@ -13,7 +13,10 @@ public class PickUpCircleAttack : MonoBehaviour {
         if (player != null)
         {
             Destroy(gameObject, 0);
-            player.isCircleAttack = true;
+            if (!player.isCircleAttack)
+                player.isCircleAttack = true;
+            else
+                player.CircleAtk++;
         }
     }
 

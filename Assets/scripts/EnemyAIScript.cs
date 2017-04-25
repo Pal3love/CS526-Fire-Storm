@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class EnemyAIScript : MonoBehaviour
 {
 
-    public float moveSpeed = 0.1f;
+    public float moveSpeed = 1f;
     public GameObject target;
     float shootingTime = 0.5f;
     float shootingNeedTime = 1.0f;
@@ -18,10 +18,14 @@ public class EnemyAIScript : MonoBehaviour
     public Vector2 selfPos;
     public Vector2 follow;
 
+    private Vector2 enemyToPlayer;
+
     public float enemyHP = 3;
     public float currentHP;
     public float Atk = 1;
     public Slider healthBar;
+
+    private Animator enemyBeeAnimator;
     // Use this for initialization
     void Start()
     {
@@ -30,11 +34,12 @@ public class EnemyAIScript : MonoBehaviour
         target = GameObject.FindGameObjectsWithTag("Player")[0];
 
         currentHP = enemyHP;
-        healthBar.value = currentHP/enemyHP;
+        //healthBar.value = currentHP/enemyHP;
+
+        enemyBeeAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
-
     void Update()
     {
         Follow(); 
@@ -51,6 +56,12 @@ public class EnemyAIScript : MonoBehaviour
     {
         playerPos = target.transform.position;
         selfPos = transform.position;
+        enemyToPlayer = playerPos - selfPos;
+        if (enemyToPlayer.x > 0)
+            enemyBeeAnimator.SetBool("isFaceRight", true);
+        else
+            enemyBeeAnimator.SetBool("isFaceRight", false);
+
         follow = Vector2.MoveTowards(selfPos, playerPos, moveSpeed);
         rgbd.MovePosition(follow);
     }
@@ -60,7 +71,7 @@ public class EnemyAIScript : MonoBehaviour
         if (col.tag == "PlayerShot")
         {
             currentHP -= target.GetComponent<PlayerScript>().Atk;
-            healthBar.value = currentHP / enemyHP;
+            //healthBar.value = currentHP / enemyHP;
             if (currentHP <= 0)
             {
                 Destroy(gameObject);
