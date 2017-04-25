@@ -25,6 +25,9 @@ public class EnemyAIScript : MonoBehaviour
     public float Atk = 1;
     public Slider healthBar;
 
+
+	public GameObject Pill; 
+
     private Animator enemyBeeAnimator;
     // Use this for initialization
     void Start()
@@ -75,6 +78,11 @@ public class EnemyAIScript : MonoBehaviour
             if (currentHP <= 0)
             {
                 Destroy(gameObject);
+
+//				int randomNumber = Random.Range(0, 100);
+//				if (randomNumber >= 50) {
+					Instantiate (Pill, new Vector2 (rgbd.transform.position.x, rgbd.transform.position.y), Quaternion.identity);
+//				}
             }
            
             Destroy(col.gameObject);
