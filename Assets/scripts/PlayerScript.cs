@@ -18,9 +18,6 @@ public class PlayerScript : MonoBehaviour {
 	public Vector2 jumpVector = new Vector2(0, 230);
 
 	public bool isGrounded;
-	public float radiuss;
-    public Transform grounder;
-	public LayerMask ground;
 
     public Rigidbody2D bulletPrefab1;
     public Rigidbody2D bulletPrefab2;
@@ -30,7 +27,8 @@ public class PlayerScript : MonoBehaviour {
     public float Atk = 1;
     public Slider playerSlider;
 
-    private bool isClimbing = false;
+    public bool isClimbing = false;
+    private float originalGravityScale;
     private Animator Animor;
 
     public bool isCircleAttack = false;
@@ -45,6 +43,7 @@ public class PlayerScript : MonoBehaviour {
         playerSlider.value = currentHP / playerHP;
 
         rigidbodyComponent = GetComponent<Rigidbody2D>();
+        originalGravityScale = rigidbodyComponent.gravityScale;
     }
 	
 	// Update is called once per frame
@@ -128,7 +127,9 @@ public class PlayerScript : MonoBehaviour {
                     enemyList[i].GetComponent<EnemyAIScript>().currentHP -= CircleAtk;
             }
         }
-	}
+
+        playerSlider.value = currentHP / playerHP;
+    }
 
 	void FixedUpdate()
 	{
@@ -141,13 +142,13 @@ public class PlayerScript : MonoBehaviour {
 		if (otherCollider.tag == "Rope") {
 			if (!isClimbing) {
 				isClimbing = true;
+                rigidbodyComponent.gravityScale = 0;
 			}
 		}
 
         if (otherCollider.tag == "EnemyBullet")
         {
             currentHP -= otherCollider.GetComponent<EnemyBulletScript>().enemyAtk;
-            playerSlider.value = currentHP / playerHP;
             if (currentHP <= 0)
             {
                 Destroy(gameObject);
@@ -159,7 +160,6 @@ public class PlayerScript : MonoBehaviour {
         if (otherCollider.tag == "Enemy")
         {
             currentHP -= otherCollider.GetComponent<EnemyAIScript>().Atk;
-            playerSlider.value = currentHP / playerHP;
             if (currentHP <= 0)
             {
                 Destroy(gameObject);
@@ -174,6 +174,7 @@ public class PlayerScript : MonoBehaviour {
 		if (otherCollider.tag == "Rope") {
 			if (isClimbing) {
 				isClimbing = false;
+                rigidbodyComponent.gravityScale = originalGravityScale;
 			}
 		}
 	}
@@ -186,9 +187,6 @@ public class PlayerScript : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(grounder.transform.position, radiuss);
-
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, 3);
     }

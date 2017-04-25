@@ -10,7 +10,6 @@ public class ClimbScript : MonoBehaviour {
 	private PlayerScript player;
     private Animator playerAnimator;
     private Rigidbody2D playerRigidbody;
-	private float originalGravityScale;
 
 	public float climpSpeed = 3;
 
@@ -22,9 +21,6 @@ public class ClimbScript : MonoBehaviour {
 		if (player != null)
 		{
             playerRigidbody = player.GetComponent<Rigidbody2D>();
-            originalGravityScale = playerRigidbody.gravityScale;
-			playerRigidbody.gravityScale = 0;
-
             playerAnimator = player.GetComponent<Animator>();
         }
 	}
@@ -55,7 +51,6 @@ public class ClimbScript : MonoBehaviour {
 	{
 		if (player != null)
 		{ 
-			playerRigidbody.gravityScale = originalGravityScale;
 		}
 	}
 }

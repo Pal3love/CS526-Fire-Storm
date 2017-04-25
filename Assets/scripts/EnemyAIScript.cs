@@ -9,7 +9,7 @@ public class EnemyAIScript : MonoBehaviour
     public float moveSpeed = 0.01f;
     public GameObject target;
     float shootingTime = 0.5f;
-    float shootingNeedTime = 1.0f;
+    public float shootingNeedTime = 1.0f;
    
     public Rigidbody2D rgbd;
     public Rigidbody2D bulletPrefab;
