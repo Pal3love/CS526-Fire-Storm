@@ -59,7 +59,7 @@ public class EnemyAIScript : MonoBehaviour
             Destroy(gameObject);
 
             int randomNumber = Random.Range(0, 100);
-            if (randomNumber <= 20)
+            if (randomNumber <= 50)
             {
                 Instantiate(HealthUp, rgbd.transform.position, Quaternion.identity);
             }
