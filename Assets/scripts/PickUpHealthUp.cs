@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUpHealthMaxUp : MonoBehaviour {
+public class PickUpHealthUp : MonoBehaviour {
 
     PlayerScript player;
 
@@ -14,8 +14,14 @@ public class PickUpHealthMaxUp : MonoBehaviour {
         if (player != null)
         {
             Destroy(gameObject, 0);
-            player.playerHP += 5;
-            player.currentHP += 5;
+            player.currentHP += 2;
+            player.currentHP = (player.currentHP > player.playerHP) ? player.playerHP : player.currentHP;
+        }
+
+        if(otherCollider.tag == "Ground")
+        {
+            GetComponent<Rigidbody2D>().gravityScale = 0;
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         }
     }
 

@@ -33,6 +33,8 @@ public class PlayerScript : MonoBehaviour {
 
     public bool isCircleAttack = false;
     public int CircleAtk = 1;
+
+    private float maxVerticalSpeed = 10;
     private void Awake()
     {
         Animor = GetComponent<Animator>();
@@ -135,7 +137,11 @@ public class PlayerScript : MonoBehaviour {
 	{
 		// 5 - Get the component and store the reference
 		if (rigidbodyComponent == null) rigidbodyComponent = GetComponent<Rigidbody2D>();
-	}
+
+        // limit vertical speed
+        if(rigidbodyComponent.velocity.y > maxVerticalSpeed)
+            rigidbodyComponent.velocity = new Vector2(rigidbodyComponent.velocity.x, rigidbodyComponent.velocity.normalized.y * maxVerticalSpeed);
+    }
 
 	void OnTriggerEnter2D(Collider2D otherCollider)
 	{
@@ -165,7 +171,7 @@ public class PlayerScript : MonoBehaviour {
                 Destroy(gameObject);
                 SceneManager.LoadScene("EndGame");
             }
-            Destroy(otherCollider.gameObject);
+            otherCollider.GetComponent<EnemyAIScript>().currentHP = 0;
         }
     }
 

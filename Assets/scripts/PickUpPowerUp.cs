@@ -14,7 +14,7 @@ public class PickUpPowerUp : MonoBehaviour {
         if (player != null)
 		{ 
 			Destroy(gameObject, 0);
-            player.GetComponent<PlayerScript>().Atk++;
+            player.Atk++;
 		}
 	}
 		

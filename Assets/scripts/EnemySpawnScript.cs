@@ -49,6 +49,10 @@ public class EnemySpawnScript : MonoBehaviour {
                 EnemyAI.shootingNeedTime -= enemyLevel * 0.05f;
                 if (EnemyAI.shootingNeedTime < 0.5)
                     EnemyAI.shootingNeedTime = 0.5f;
+
+                SpawnInterval_MAX -= enemyLevel * 2;
+                if (SpawnInterval_MAX < 5)
+                    SpawnInterval_MAX = 5;
             }
 
             yield return new WaitForSeconds(SpawnInterval);

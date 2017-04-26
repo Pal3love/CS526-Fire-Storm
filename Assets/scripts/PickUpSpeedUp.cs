@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUpHealthMaxUp : MonoBehaviour {
+public class PickUpSpeedUp : MonoBehaviour {
 
     PlayerScript player;
 
@@ -14,8 +14,7 @@ public class PickUpHealthMaxUp : MonoBehaviour {
         if (player != null)
         {
             Destroy(gameObject, 0);
-            player.playerHP += 5;
-            player.currentHP += 5;
+            player.walkSpeed += 0.5f;
         }
     }
 

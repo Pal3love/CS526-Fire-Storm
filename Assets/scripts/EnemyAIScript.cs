@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyAIScript : MonoBehaviour
 {
+    public GameObject HealthUp;
 
     public float moveSpeed = 0.01f;
     public GameObject target;
@@ -42,14 +43,17 @@ public class EnemyAIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Follow(); 
-        if(Mathf.Abs(target.transform.position.x - transform.position.x) <5.0f)
+        Follow();
+        if (Mathf.Abs(target.transform.position.x - transform.position.x) < 5.0f)
         {
             Shoot();
         }
 
         if (currentHP <= 0)
+        {
             Destroy(gameObject);
+            Instantiate(HealthUp, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        }
     }
 
     void Follow()
@@ -72,10 +76,6 @@ public class EnemyAIScript : MonoBehaviour
         {
             currentHP -= target.GetComponent<PlayerScript>().Atk;
             //healthBar.value = currentHP / enemyHP;
-            if (currentHP <= 0)
-            {
-                Destroy(gameObject);
-            }
            
             Destroy(col.gameObject);
         }
