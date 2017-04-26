@@ -9,7 +9,7 @@ public class EnemyAIScript : MonoBehaviour
     public float moveSpeed = 0.01f;
     public GameObject target;
     float shootingTime = 0.5f;
-    float shootingNeedTime = 1.0f;
+    public float shootingNeedTime = 1.0f;
    
     public Rigidbody2D rgbd;
     public Rigidbody2D bulletPrefab;
@@ -24,6 +24,9 @@ public class EnemyAIScript : MonoBehaviour
     public float currentHP;
     public float Atk = 1;
     public Slider healthBar;
+
+
+	public GameObject Pill; 
 
     private Animator enemyBeeAnimator;
     // Use this for initialization
@@ -79,6 +82,11 @@ public class EnemyAIScript : MonoBehaviour
             if (currentHP <= 0)
             {
                 Destroy(gameObject);
+
+//				int randomNumber = Random.Range(0, 100);
+//				if (randomNumber >= 50) {
+					Instantiate (Pill, new Vector2 (rgbd.transform.position.x, rgbd.transform.position.y), Quaternion.identity);
+//				}
             }
            
             Destroy(col.gameObject);

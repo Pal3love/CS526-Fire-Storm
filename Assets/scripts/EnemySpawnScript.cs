@@ -36,7 +36,20 @@ public class EnemySpawnScript : MonoBehaviour {
 
             SpawnPosition = new Vector3(Random.Range(-SpawnRange.x, SpawnRange.x), Random.Range(-SpawnRange.y, SpawnRange.y), 0);
 
-            Instantiate(Enemies[RandEnemy], SpawnPosition + transform.TransformPoint(0, 0, 0), Quaternion.identity);
+            GameObject Enemy = Instantiate(Enemies[RandEnemy], SpawnPosition + transform.TransformPoint(0, 0, 0), Quaternion.identity);
+            if(Enemy.tag == "Enemy")
+            {
+                EnemyAIScript EnemyAI = Enemy.GetComponent<EnemyAIScript>();
+                int enemyLevel = (int)Time.realtimeSinceStartup / 30;
+                EnemyAI.moveSpeed += enemyLevel * 0.01f;
+                if (EnemyAI.moveSpeed > 0.1)
+                    EnemyAI.moveSpeed = 0.1f;
+                EnemyAI.enemyHP += enemyLevel * 2;
+                EnemyAI.Atk += enemyLevel;
+                EnemyAI.shootingNeedTime -= enemyLevel * 0.05f;
+                if (EnemyAI.shootingNeedTime < 0.5)
+                    EnemyAI.shootingNeedTime = 0.5f;
+            }
 
             yield return new WaitForSeconds(SpawnInterval);
         }

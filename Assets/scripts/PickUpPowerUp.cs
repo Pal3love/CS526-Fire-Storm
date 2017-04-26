@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUpScript : MonoBehaviour {
+public class PickUpPowerUp : MonoBehaviour {
 
 	PlayerScript player;
 
 	void OnTriggerEnter2D(Collider2D otherCollider)
 	{
-
-		Debug.Log("entered pick up");
 		// Is this player?
 		player = otherCollider.gameObject.GetComponent<PlayerScript>();
 
