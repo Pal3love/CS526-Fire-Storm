@@ -24,7 +24,11 @@ public class EnemySpawnScript : MonoBehaviour {
 	
 	void Update () {
         SpawnInterval = Random.Range(SpawnInterval_MIN, SpawnInterval_MAX);
-	}
+
+        SpawnInterval_MAX -= (int)Time.realtimeSinceStartup / 30 * 0.001f;
+        if (SpawnInterval_MAX < 2)
+            SpawnInterval_MAX = 2;
+    }
 
     IEnumerator Spawner()
     {
@@ -49,10 +53,6 @@ public class EnemySpawnScript : MonoBehaviour {
                 EnemyAI.shootingNeedTime -= enemyLevel * 0.05f;
                 if (EnemyAI.shootingNeedTime < 0.5)
                     EnemyAI.shootingNeedTime = 0.5f;
-
-                SpawnInterval_MAX -= enemyLevel * 2;
-                if (SpawnInterval_MAX < 2)
-                    SpawnInterval_MAX = 2;
             }
 
             yield return new WaitForSeconds(SpawnInterval);
