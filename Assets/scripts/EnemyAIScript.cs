@@ -17,7 +17,7 @@ public class EnemyAIScript : MonoBehaviour
     public Vector2 playerPos;
     public Vector2 selfPos;
     public Vector2 follow;
-
+  
     private Vector2 enemyToPlayer;
 
     public float enemyHP = 3;
@@ -34,7 +34,7 @@ public class EnemyAIScript : MonoBehaviour
         target = GameObject.FindGameObjectsWithTag("Player")[0];
 
         currentHP = enemyHP;
-        //healthBar.value = currentHP/enemyHP;
+        healthBar.value = currentHP/enemyHP;
 
         enemyBeeAnimator = GetComponent<Animator>();
     }
@@ -42,8 +42,11 @@ public class EnemyAIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Follow(); 
-        if(Mathf.Abs(target.transform.position.x - transform.position.x) <5.0f)
+        Follow();
+
+        if(Vector2.Distance(target.transform.position, transform.transform.position) < 5.0f)
+       // if(Mathf.Abs(target.transform.position.x - transform.position.x) <5.0f)
+
         {
             Shoot();
         }
@@ -72,6 +75,7 @@ public class EnemyAIScript : MonoBehaviour
         {
             currentHP -= target.GetComponent<PlayerScript>().Atk;
             //healthBar.value = currentHP / enemyHP;
+            healthBar.value = currentHP / enemyHP;
             if (currentHP <= 0)
             {
                 Destroy(gameObject);
@@ -83,20 +87,20 @@ public class EnemyAIScript : MonoBehaviour
 
     void Shoot()
     {
+        playerPos = target.transform.position;
         if (shootingTime <= 0)
         {
             shootingTime = shootingNeedTime;
             Rigidbody2D bullet = Instantiate(bulletPrefab) as Rigidbody2D;
             bullet.position = transform.position;
+
             bullet.GetComponent<EnemyBulletScript>().enemyAtk = Atk;
-            if (transform.position.x < target.transform.position.x)
-            {
-                bullet.velocity = new Vector2(bulletSpeed, 0);
-            }
-            else
-            {
-                bullet.velocity = new Vector2(-bulletSpeed, 0);
-            }
+
+            Vector2 transPos = new Vector2(transform.position.x, transform.position.y);
+               Vector2 moveFollow  = playerPos - transPos;
+                bullet.velocity = moveFollow * 0.8f;
+
+            
         }
         else
         {
