@@ -65,8 +65,8 @@ public class MissileScript : MonoBehaviour {
 
 		if (other.tag == "Enemy") {
 
-			Destroy (other.gameObject, 0.02f);
-
+            other.GetComponent<EnemyAIScript>().currentHP--;
+            Destroy(gameObject);
 		}
 
 	}

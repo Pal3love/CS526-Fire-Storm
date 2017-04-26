@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class EnemyAIScript : MonoBehaviour
 {
-    public GameObject HealthUp;
 
     public float moveSpeed = 0.01f;
     public GameObject target;
@@ -18,13 +17,16 @@ public class EnemyAIScript : MonoBehaviour
     public Vector2 playerPos;
     public Vector2 selfPos;
     public Vector2 follow;
-
+  
     private Vector2 enemyToPlayer;
 
     public float enemyHP = 3;
     public float currentHP;
     public float Atk = 1;
     public Slider healthBar;
+
+
+	public GameObject HealthUp; 
 
     private Animator enemyBeeAnimator;
     // Use this for initialization
@@ -35,7 +37,7 @@ public class EnemyAIScript : MonoBehaviour
         target = GameObject.FindGameObjectsWithTag("Player")[0];
 
         currentHP = enemyHP;
-        //healthBar.value = currentHP/enemyHP;
+        healthBar.value = currentHP/enemyHP;
 
         enemyBeeAnimator = GetComponent<Animator>();
     }
@@ -44,16 +46,16 @@ public class EnemyAIScript : MonoBehaviour
     void Update()
     {
         Follow();
-        if (Mathf.Abs(target.transform.position.x - transform.position.x) < 5.0f)
+
+        if(Vector2.Distance(target.transform.position, transform.transform.position) < 5.0f)
+       // if(Mathf.Abs(target.transform.position.x - transform.position.x) <5.0f)
+
         {
             Shoot();
         }
 
         if (currentHP <= 0)
-        {
             Destroy(gameObject);
-            Instantiate(HealthUp, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
-        }
     }
 
     void Follow()
@@ -76,6 +78,16 @@ public class EnemyAIScript : MonoBehaviour
         {
             currentHP -= target.GetComponent<PlayerScript>().Atk;
             //healthBar.value = currentHP / enemyHP;
+            healthBar.value = currentHP / enemyHP;
+            if (currentHP <= 0)
+            {
+                Destroy(gameObject);
+
+//				int randomNumber = Random.Range(0, 100);
+//				if (randomNumber >= 50) {
+					Instantiate (HealthUp, rgbd.transform.position, Quaternion.identity);
+//				}
+            }
            
             Destroy(col.gameObject);
         }
@@ -83,20 +95,18 @@ public class EnemyAIScript : MonoBehaviour
 
     void Shoot()
     {
+        playerPos = target.transform.position;
         if (shootingTime <= 0)
         {
             shootingTime = shootingNeedTime;
             Rigidbody2D bullet = Instantiate(bulletPrefab) as Rigidbody2D;
             bullet.position = transform.position;
+
             bullet.GetComponent<EnemyBulletScript>().enemyAtk = Atk;
-            if (transform.position.x < target.transform.position.x)
-            {
-                bullet.velocity = new Vector2(bulletSpeed, 0);
-            }
-            else
-            {
-                bullet.velocity = new Vector2(-bulletSpeed, 0);
-            }
+
+            Vector2 transPos = new Vector2(transform.position.x, transform.position.y);
+            Vector2 moveFollow  = playerPos - transPos;
+            bullet.velocity = moveFollow * 0.8f;     
         }
         else
         {
