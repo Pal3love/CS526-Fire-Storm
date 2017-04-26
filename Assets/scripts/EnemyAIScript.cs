@@ -55,7 +55,17 @@ public class EnemyAIScript : MonoBehaviour
         }
 
         if (currentHP <= 0)
+        {
             Destroy(gameObject);
+
+            int randomNumber = Random.Range(0, 100);
+            if (randomNumber <= 20)
+            {
+                Instantiate(HealthUp, rgbd.transform.position, Quaternion.identity);
+            }
+        }
+
+        healthBar.value = currentHP / enemyHP;
     }
 
     void Follow()
@@ -77,17 +87,6 @@ public class EnemyAIScript : MonoBehaviour
         if (col.tag == "PlayerShot")
         {
             currentHP -= target.GetComponent<PlayerScript>().Atk;
-            //healthBar.value = currentHP / enemyHP;
-            healthBar.value = currentHP / enemyHP;
-            if (currentHP <= 0)
-            {
-                Destroy(gameObject);
-
-//				int randomNumber = Random.Range(0, 100);
-//				if (randomNumber >= 50) {
-					Instantiate (HealthUp, rgbd.transform.position, Quaternion.identity);
-//				}
-            }
            
             Destroy(col.gameObject);
         }

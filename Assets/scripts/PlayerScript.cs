@@ -33,6 +33,11 @@ public class PlayerScript : MonoBehaviour {
 
     public bool isCircleAttack = false;
     public int CircleAtk = 1;
+    public GameObject CircleGameObject;
+
+    public GameObject MissileGameObject;
+    public bool isMissile;
+    public int MissileAtk = 1;
 
     private float maxVerticalSpeed = 10;
     private void Awake()
@@ -46,6 +51,8 @@ public class PlayerScript : MonoBehaviour {
 
         rigidbodyComponent = GetComponent<Rigidbody2D>();
         originalGravityScale = rigidbodyComponent.gravityScale;
+
+        CircleGameObject.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -113,6 +120,17 @@ public class PlayerScript : MonoBehaviour {
 				weapon.Attack(false);
 			}
 
+            if (isMissile)
+            {
+                int randomNumber = Random.Range(0, 100);
+                if (randomNumber <= 20)
+                {
+                    GameObject missile = Instantiate(MissileGameObject, transform.position, Quaternion.identity);
+                    if (missile)
+                        missile.GetComponent<MissileScript>().Atk = MissileAtk;
+                }
+            }
+
             Animor.SetTrigger("Shooting");
         }
 
@@ -121,6 +139,7 @@ public class PlayerScript : MonoBehaviour {
         // Circle Attack
         if(isCircleAttack)
         {
+            CircleGameObject.SetActive(true);
             GameObject[] enemyList = GameObject.FindGameObjectsWithTag("Enemy");
             for(int i = 0; i < enemyList.Length; i++)
             {

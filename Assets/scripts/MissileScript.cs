@@ -6,6 +6,7 @@ public class MissileScript : MonoBehaviour {
 
 	public float speed = 5;
 	public float rotatingSpeed= 200;
+    public float Atk;
 	public GameObject[] targets;
 	public GameObject target;
 
@@ -29,34 +30,34 @@ public class MissileScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-		
-		if (targets.Length == 0) {
-			targets = GameObject.FindGameObjectsWithTag("Enemy");
-		}
-		if (targets != null) {
-			Debug.Log ("find enemies");
-			Debug.Log ("length: " + targets.Length);
-		} else {
-			Debug.Log ("can not find enemies");
-		}
 
-		//find the nearest enemy
-		float minDistance = float.MaxValue;
-		for (int i = 0; i < targets.Length; i++) {
-			Vector2 point2Target = (Vector2)transform.position - (Vector2)targets[i].transform.position;
-			point2Target.Normalize ();
+        targets = GameObject.FindGameObjectsWithTag("Enemy");
 
-			float value = Vector3.Cross (point2Target, transform.right).z;
+        if (targets.Length == 0)
+        {
+            Destroy(gameObject);
+        }
+        else {
+            //find the nearest enemy
+            float minDistance = float.MaxValue;
+            for (int i = 0; i < targets.Length; i++)
+            {
+                Vector2 point2Target = (Vector2)transform.position - (Vector2)targets[i].transform.position;
+                point2Target.Normalize();
 
-			if (value < minDistance)
-				minDistance = value;
-		}
+                float value = Vector3.Cross(point2Target, transform.right).z;
 
-		if (minDistance != float.MaxValue) {
-			rb.angularVelocity = rotatingSpeed * minDistance;
+                if (value < minDistance)
+                    minDistance = value;
+            }
 
-			rb.velocity = transform.right * speed;
-		}
+            if (minDistance != float.MaxValue)
+            {
+                rb.angularVelocity = rotatingSpeed * minDistance;
+
+                rb.velocity = transform.right * speed;
+            }
+        }
 	}
 
 
@@ -65,7 +66,7 @@ public class MissileScript : MonoBehaviour {
 
 		if (other.tag == "Enemy") {
 
-            other.GetComponent<EnemyAIScript>().currentHP--;
+            other.GetComponent<EnemyAIScript>().currentHP -= Atk;
             Destroy(gameObject);
 		}
 
