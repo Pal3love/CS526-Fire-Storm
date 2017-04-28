@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-	public const float CAMERA_LEFT_BOUNDARY = -14f;
-	public const float CAMERA_RIGHT_BOUNDARY = 15f;
+	public const float CAMERA_LEFT_BOUNDARY = -13f;
+	public const float CAMERA_RIGHT_BOUNDARY = 14f;
 	public const float CAMERA_BOTTOM_BOUNDARY = -12f;
-	public const float CAMERA_TOP_BOUNDARY = 13f;
+	public const float CAMERA_TOP_BOUNDARY = -1f;
 
 	// public static float pixelsToUnits = 1f;
 	// public static float scale = 1f;

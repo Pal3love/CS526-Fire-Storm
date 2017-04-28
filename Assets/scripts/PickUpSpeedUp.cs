@@ -14,7 +14,8 @@ public class PickUpSpeedUp : MonoBehaviour {
         if (player != null)
         {
             Destroy(gameObject, 0);
-            player.walkSpeed += 0.5f;
+			player.initialWalkingSpeed += 0.5f;
+			player.walkSpeed += 0.5f;
         }
     }
 

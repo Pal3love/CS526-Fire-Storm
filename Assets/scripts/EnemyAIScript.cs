@@ -26,6 +26,7 @@ public class EnemyAIScript : MonoBehaviour
     public Slider healthBar;
 
 
+
 	public GameObject HealthUp; 
 
     private Animator enemyBeeAnimator;
@@ -47,7 +48,7 @@ public class EnemyAIScript : MonoBehaviour
     {
         Follow();
 
-        if(Vector2.Distance(target.transform.position, transform.transform.position) < 5.0f)
+        if(Vector2.Distance(target.transform.position, transform.transform.position) < 8.0f)
        // if(Mathf.Abs(target.transform.position.x - transform.position.x) <5.0f)
 
         {
@@ -56,6 +57,7 @@ public class EnemyAIScript : MonoBehaviour
 
         if (currentHP <= 0)
         {
+			PlayerScript.score += 10;
             Destroy(gameObject);
 
             int randomNumber = Random.Range(0, 100);
@@ -87,7 +89,6 @@ public class EnemyAIScript : MonoBehaviour
         if (col.tag == "PlayerShot")
         {
             currentHP -= target.GetComponent<PlayerScript>().Atk;
-           
             Destroy(col.gameObject);
         }
     }

@@ -25,7 +25,7 @@ public class EnemySpawnScript : MonoBehaviour {
 	void Update () {
         SpawnInterval = Random.Range(SpawnInterval_MIN, SpawnInterval_MAX);
 
-        SpawnInterval_MAX -= (int)Time.realtimeSinceStartup / 30 * 0.001f;
+		SpawnInterval_MAX -= (int)Time.timeSinceLevelLoad / 30 * 0.001f;
         if (SpawnInterval_MAX < 2)
             SpawnInterval_MAX = 2;
     }
@@ -44,7 +44,7 @@ public class EnemySpawnScript : MonoBehaviour {
             if(Enemy.tag == "Enemy")
             {
                 EnemyAIScript EnemyAI = Enemy.GetComponent<EnemyAIScript>();
-                int enemyLevel = (int)Time.realtimeSinceStartup / 30;
+				int enemyLevel = (int)Time.timeSinceLevelLoad / 30;
                 EnemyAI.moveSpeed += enemyLevel * 0.01f;
                 if (EnemyAI.moveSpeed > 0.1)
                     EnemyAI.moveSpeed = 0.1f;

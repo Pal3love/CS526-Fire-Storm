@@ -22,7 +22,7 @@ public class PlayerScript : MonoBehaviour {
     public Rigidbody2D bulletPrefab1;
     public Rigidbody2D bulletPrefab2;
 
-    public float playerHP = 10;
+    public float playerHP = 15;
     public float currentHP;
     public float Atk = 1;
     public Slider playerSlider;
@@ -39,31 +39,32 @@ public class PlayerScript : MonoBehaviour {
     public bool isMissile;
     public int MissileAtk = 1;
 
+	public static int score;
+	public Text scoreText;
+
     private float maxVerticalSpeed = 10;
+	public float initialWalkingSpeed;
+
     private void Awake()
     {
         Animor = GetComponent<Animator>();
     }
     // Use this for initialization
     void Start () {
+		this.initialWalkingSpeed = this.walkSpeed;
+		PlayerScript.score = 0;
+		scoreText.text = "SCORE: " + PlayerScript.score.ToString();
         currentHP = playerHP;
         playerSlider.value = currentHP / playerHP;
-
         rigidbodyComponent = GetComponent<Rigidbody2D>();
         originalGravityScale = rigidbodyComponent.gravityScale;
-
         CircleGameObject.SetActive(false);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        // 3 - Retrieve axis information
-        //		float inputX = Input.GetAxis("Horizontal");
-        //		float inputY = Input.GetAxis("Vertical");
-        //		float inputX = CrossPlatformInputManager.GetAxis ("Horizontal");  // Replaced by touchscreen control (Shiyu He)
-        //		float inputY = CrossPlatformInputManager.GetAxis ("Vertical");  // Replaced by touchscreen control (Shiyu He)
-
-        float horizontalInput = Input.GetAxis("Horizontal");
+        // float horizontalInput = Input.GetAxis("Horizontal");  // Keyboard Support
+		float horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal");  // Touchscreen Support
 
         // Shiyu He: Set boundry for the player
         Vector3 currPlayerPos = transform.position;
@@ -86,16 +87,16 @@ public class PlayerScript : MonoBehaviour {
             Animor.SetFloat("HorizontalSpeed", Mathf.Abs(horizontalInput));
 
         // 5 - Jumping
-        if (Input.GetKey(KeyCode.UpArrow) && isGrounded){
+		// Use Input.GetKey(KeyCode.UpArrow) for keyboard support
+		if (CrossPlatformInputManager.GetAxis("Vertical") > 0.4f && isGrounded) {
 			rigidbodyComponent.AddForce (jumpVector, ForceMode2D.Force);
             isGrounded = false;
 		}
 
-
 		// 6 - Shooting
-//		bool shoot = CrossPlatformInputManager.GetButton("FIRE");  // Replaced by touchscreen control (Shiyu He)
-		bool shoot = Input.GetButtonDown("Fire1");
-		shoot |= Input.GetButtonDown("Fire2");
+		bool shoot = CrossPlatformInputManager.GetButtonDown("Shoot");  // Replaced by touchscreen control (Shiyu He)
+		// bool shoot = Input.GetButtonDown("Fire1");
+		// shoot |= Input.GetButtonDown("Fire2");
 		// Careful: For Mac users, ctrl + arrow is a bad idea
 
 		if (!isClimbing && shoot)
@@ -144,7 +145,7 @@ public class PlayerScript : MonoBehaviour {
             for(int i = 0; i < enemyList.Length; i++)
             {
                 float dis = Vector3.Distance(transform.position, enemyList[i].transform.position);
-                if (dis < 3.1 && dis > 3.0)
+                if (dis < 3.4 && dis > 3.3)
                     enemyList[i].GetComponent<EnemyAIScript>().currentHP -= CircleAtk;
             }
         }
@@ -154,6 +155,24 @@ public class PlayerScript : MonoBehaviour {
 
 	void FixedUpdate()
 	{
+		// Shiyu He: Update score
+		scoreText.text = "SCORE: " + PlayerScript.score.ToString();
+
+		// Shiyu He: Get blink!
+		// Use Input.GetAxis("Horizontal") for keyboard support
+		if (!this.isClimbing && CrossPlatformInputManager.GetButtonDown ("Blink") && CrossPlatformInputManager.GetAxis ("Horizontal") != 0) {
+			this.walkSpeed = 30f;
+		}
+
+		// Shiyu He: Updata blinking speed
+		if (walkSpeed > this.initialWalkingSpeed) {
+			if (CrossPlatformInputManager.GetAxis("Horizontal") == 0) {
+				this.walkSpeed = this.initialWalkingSpeed;
+			} else {
+				this.walkSpeed -= 1f;
+			}
+		}
+
 		// 5 - Get the component and store the reference
 		if (rigidbodyComponent == null) rigidbodyComponent = GetComponent<Rigidbody2D>();
 
@@ -213,6 +232,6 @@ public class PlayerScript : MonoBehaviour {
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, 3);
+        Gizmos.DrawWireSphere(transform.position, 3.4f);
     }
 }

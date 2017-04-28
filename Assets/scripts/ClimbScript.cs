@@ -28,7 +28,8 @@ public class ClimbScript : MonoBehaviour {
 	{
 		if (player != null)
 		{
-            float VerticalInput = Input.GetAxis("Vertical");
+            // float VerticalInput = Input.GetAxis("Vertical");  // Keyboard Support
+			float VerticalInput = CrossPlatformInputManager.GetAxis("Vertical");  // Touchscreen Support
 
             playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, VerticalInput * climpSpeed);
 
